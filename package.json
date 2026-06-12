@@ -1,0 +1,18 @@
+{
+  "name": "bances-web-monorepo",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev:www": "pnpm --filter @bances/www dev -- --port 4320",
+    "build:www": "pnpm --filter @bances/www build",
+    "deploy:www": "echo 'TODO: deploy FTP — fase deploy-baseline'",
+    "verify:html-diff": "echo 'TODO: verify HTML diff — fase migración'",
+    "verify:sitemap-images": "echo 'TODO: verify sitemap images — fase migración'",
+    "check": "pnpm --filter @bances/www exec astro check",
+    "test": "echo 'TODO: tests — sin suite todavía'"
+  }
+}

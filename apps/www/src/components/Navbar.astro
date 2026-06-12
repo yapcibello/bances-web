@@ -1,0 +1,29 @@
+---
+/**
+ * Navbar — esqueleto AAA (navegación principal).
+ * SOLO esqueleto: el diseño 1:1 del WordPress llega en la fase migración.
+ * Los href replican los slugs reales del sitio actual (URLs inmutables).
+ */
+import { mainNav } from '../utils/siteConfig';
+
+const pathname = Astro.url.pathname;
+---
+
+<nav aria-label="Navegación principal">
+  <ul class="flex flex-wrap gap-4">
+    {mainNav.map((item) => {
+      const isCurrent = pathname === item.href;
+      return (
+        <li>
+          <a
+            href={item.href}
+            class="inline-flex items-center min-h-[44px] px-2 text-secondary hover:text-primary"
+            aria-current={isCurrent ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        </li>
+      );
+    })}
+  </ul>
+</nav>

@@ -1,0 +1,138 @@
+---
+/**
+ * Layout base de la app WWW — esqueleto AAA con SEO técnico.
+ * Patrón adaptado de logopedajessica-web/apps/www/src/layouts/Layout.astro,
+ * con marca y datos reales de Clínica Dental Bances.
+ *
+ * El diseño visual 1:1 del WordPress llega en la fase migración; aquí solo
+ * está la estructura semántica, meta tags, JSON-LD y GTM.
+ */
+import '../styles/global.css';
+import { siteConfig } from '../utils/siteConfig';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  noIndex?: boolean;
+  canonicalOverride?: string;
+}
+
+const {
+  title,
+  description = siteConfig.description,
+  image = '/og-default.jpg',
+  noIndex = false,
+  canonicalOverride,
+} = Astro.props;
+
+// GTM — opcional; si PUBLIC_GTM_ID no está definido, no se inyecta nada.
+const gtmId = import.meta.env.PUBLIC_GTM_ID;
+
+const pageTitle = title.includes(siteConfig.marca)
+  ? title
+  : `${title} | ${siteConfig.marca}`;
+
+const canonicalURL = canonicalOverride
+  ? new URL(canonicalOverride, Astro.site)
+  : new URL(Astro.url.pathname, Astro.site);
+const socialImage = new URL(image, Astro.site);
+
+// JSON-LD Organization con datos reales de Clínica Dental Bances.
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Dentist',
+  name: siteConfig.marca,
+  url: siteConfig.dominio,
+  email: siteConfig.email,
+  telephone: siteConfig.telefonos.map((t) => t.numero),
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: siteConfig.direccion.street,
+    postalCode: siteConfig.direccion.postalCode,
+    addressLocality: siteConfig.direccion.city,
+    addressRegion: siteConfig.direccion.region,
+    addressCountry: siteConfig.direccion.country,
+  },
+};
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="alternate" hreflang="es" href={canonicalURL} />
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={noIndex ? 'noindex, nofollow' : 'index, follow'} />
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content={siteConfig.marca} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:locale" content="es_ES" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+
+    <!-- Geo Tags — SEO local -->
+    <meta name="geo.region" content={siteConfig.geo.region} />
+    <meta name="geo.placename" content={siteConfig.geo.placename} />
+    <meta name="geo.position" content={`${siteConfig.geo.latitude};${siteConfig.geo.longitude}`} />
+    <meta name="ICBM" content={`${siteConfig.geo.latitude}, ${siteConfig.geo.longitude}`} />
+
+    <!-- Schema.org Organization -->
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Google Tag Manager -->
+    {gtmId && (
+      <script is:inline define:vars={{ gtmId }}>
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer',gtmId);
+      </script>
+    )}
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    {gtmId && (
+      <noscript>
+        <iframe
+          src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
+          height="0"
+          width="0"
+          style="display:none;visibility:hidden"
+          title="Google Tag Manager"
+        ></iframe>
+      </noscript>
+    )}
+
+    <!-- Skip link AAA -->
+    <a href="#main-content" class="skip-link inline-flex items-center justify-center min-h-[44px] min-w-[44px] rounded-lg bg-primary px-5 py-3 text-white shadow-lg">
+      Saltar al contenido
+    </a>
+
+    <Header />
+    <main id="main-content" class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

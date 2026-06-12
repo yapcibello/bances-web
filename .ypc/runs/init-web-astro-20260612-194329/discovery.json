@@ -1,0 +1,43 @@
+{
+  "slug": "bances",
+  "marca": "Clínica Dental Bances",
+  "subdominios": "solo-www",
+  "blog_como_ruta": "/recomendaciones-y-consejos-dentales/",
+  "referencia_diseno": {
+    "tipo": "replica-wp-actual",
+    "fuente": "https://clinicadentalbances.com/",
+    "nota": "Fidelidad visual 1:1 — sin cambios de textos ni imágenes. Patrones estructurales de logopedajessica-web y villena-web."
+  },
+  "paleta": {
+    "modo": "personalizada",
+    "fuente": "extraída del CSS del WP actual en fase migración",
+    "predominante": "azul marino + blanco (logo)"
+  },
+  "tipo_negocio": ["servicios-profesionales"],
+  "colecciones_extra": ["posts (blog en ruta /recomendaciones-y-consejos-dentales/)"],
+  "hosting": {
+    "tipo": "ftp-hestia-zip-php",
+    "patron": "ZIP + PHP extractTo() vía FTP a Hestia — como vitali-web y smedialab-web",
+    "credenciales": "pendiente plan F0 (no incluir en repo)"
+  },
+  "idiomas": { "modo": "solo-es" },
+  "migracion": {
+    "tipo": "wordpress",
+    "url": "https://clinicadentalbances.com/",
+    "preservar_urls": true,
+    "preservar_contenido": "textos e imágenes sin cambios"
+  },
+  "urls_inmutables": {
+    "regla": "NINGUNA URL existente en producción se modifica — prohibido cambiar slugs y prohibido resolver con redirects 301. Solo se permite AÑADIR URLs nuevas.",
+    "excepcion": "cualquier modificación de URL requiere confirmación humana explícita ANTES de aplicarla",
+    "origen": "instrucción directa del operario 2026-06-12"
+  },
+  "formulario": {
+    "tipo": "php-phpmailer",
+    "patron": "como logopedajessica-web y smedialab-web",
+    "campos": ["nombre", "contacto", "tratamiento solicitado", "RGPD checkbox"]
+  },
+  "namespace": "@bances",
+  "repo": "https://github.com/yapcibello/bances-web",
+  "puerto_dev": 4320
+}

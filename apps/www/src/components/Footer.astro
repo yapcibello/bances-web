@@ -1,0 +1,41 @@
+---
+/**
+ * Footer — esqueleto AAA.
+ * SOLO esqueleto: el diseño 1:1 del WordPress llega en la fase migración.
+ */
+import { siteConfig } from '../utils/siteConfig';
+
+const { marca, direccion, telefonos, email } = siteConfig;
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-auto border-t border-primary-pale bg-primary-pale">
+  <div class="mx-auto max-w-6xl px-4 py-8">
+    <div class="grid gap-6 sm:grid-cols-2">
+      <div>
+        <p class="font-heading font-bold text-primary">{marca}</p>
+        <address class="not-italic text-secondary-light">
+          {direccion.street}<br />
+          {direccion.postalCode} {direccion.city}
+        </address>
+      </div>
+      <nav aria-label="Contacto" class="text-secondary-light">
+        <ul class="space-y-1">
+          {telefonos.map((tel) => (
+            <li>
+              <a href={tel.href} class="inline-flex items-center min-h-[44px] hover:text-primary">
+                {tel.label}: {tel.numero}
+              </a>
+            </li>
+          ))}
+          <li>
+            <a href={`mailto:${email}`} class="inline-flex items-center min-h-[44px] hover:text-primary">
+              {email}
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <p class="mt-6 text-sm text-secondary-light">© {year} {marca}. Todos los derechos reservados.</p>
+  </div>
+</footer>

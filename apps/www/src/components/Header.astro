@@ -1,0 +1,17 @@
+---
+/**
+ * Header — esqueleto AAA.
+ * SOLO esqueleto: el diseño 1:1 del WordPress llega en la fase migración.
+ */
+import { siteConfig } from '../utils/siteConfig';
+import Navbar from './Navbar.astro';
+---
+
+<header class="border-b border-primary-pale">
+  <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-4">
+    <a href="/" class="inline-flex items-center min-h-[44px] font-heading text-lg font-bold text-primary" aria-label={`Ir al inicio — ${siteConfig.marca}`}>
+      {siteConfig.marca}
+    </a>
+    <Navbar />
+  </div>
+</header>

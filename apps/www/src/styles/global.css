@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Estilos base mínimos. El diseño 1:1 del WordPress llega en la fase migración. */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply font-sans text-secondary antialiased;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* Focus visible AAA — anillo claramente perceptible en cualquier elemento interactivo. */
+  :focus-visible {
+    outline: 3px solid theme('colors.primary.DEFAULT');
+    outline-offset: 2px;
+  }
+
+  /* Skip link — oculto hasta recibir foco por teclado. */
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 100;
+  }
+
+  .skip-link:focus {
+    left: 0.5rem;
+    top: 0.5rem;
+  }
+}

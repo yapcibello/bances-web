@@ -1,0 +1,20 @@
+---
+/**
+ * Página de inicio — skeleton mínimo.
+ * El diseño 1:1 del WordPress (clinicadentalbances.com) llega en la fase migración.
+ */
+import Layout from '../layouts/Layout.astro';
+import { siteConfig } from '../utils/siteConfig';
+---
+
+<Layout title={siteConfig.title} description={siteConfig.description}>
+  <section class="mx-auto max-w-6xl px-4 py-16">
+    <h1 class="font-heading text-3xl font-bold text-primary">{siteConfig.marca}</h1>
+    <p class="mt-4 max-w-2xl text-secondary-light">
+      {siteConfig.description}
+    </p>
+    <p class="mt-8 text-sm text-secondary-light">
+      Sitio en construcción — migración WordPress → Astro en curso.
+    </p>
+  </section>
+</Layout>

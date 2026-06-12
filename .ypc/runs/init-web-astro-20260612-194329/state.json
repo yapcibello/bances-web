@@ -1,0 +1,28 @@
+{
+  "run_id": "init-web-astro-20260612-194329",
+  "workflow": "init-web-astro",
+  "status": "running",
+  "started_at": "2026-06-12T19:43:29+01:00",
+  "input": "Migración WordPress → Astro de https://clinicadentalbances.com/ (Clínica Dental Bances). Requisitos del operario: (1) la web debe verse EXACTAMENTE igual que la actual — sin cambios de textos ni de imágenes, fidelidad visual 1:1; (2) aplicar lo mejor posible SEO, GEO (citabilidad LLMs), y accesibilidad AAA; (3) repositorio GitHub destino: https://github.com/yapcibello/bances-web; (4) reutilizar todo el conocimiento de los proyectos previos SMedialab: logopedajessica-web (referencia base), smedialab-web, villena-web, vitali-web. Directorio de trabajo: /home/yapci/Programacion/bances-web (aún no es repo git).",
+  "base_sha": "",
+  "current_phase": "estructura",
+  "phases": {
+    "preflight": {
+      "status": "completed",
+      "started_at": "2026-06-12T19:43:55+01:00",
+      "completed_at": "2026-06-12T19:48:29+01:00",
+      "artifact": ".ypc/runs/init-web-astro-20260612-194329/artifacts/preflight_report.md"
+    },
+    "discovery": {
+      "status": "completed",
+      "started_at": "2026-06-12T19:49:47+01:00",
+      "completed_at": "2026-06-12T20:01:57+01:00",
+      "artifact": ".ypc/runs/init-web-astro-20260612-194329/artifacts/discovery_json.md"
+    },
+    "estructura": {
+      "status": "running",
+      "started_at": "2026-06-12T20:04:07+01:00"
+    }
+  },
+  "gate_phase": "discovery"
+}
