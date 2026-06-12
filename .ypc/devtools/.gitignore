@@ -1,0 +1,11 @@
+# Evidencias crudas de rastreos con chrome-devtools — no versionar.
+# Los informes legibles viven en docs/devtools/ y sí se versionan.
+
+targets/*/reports/
+!targets/*/reports/.gitkeep
+
+# Backups de migración de estructura legacy
+config.conf.bak
+
+# Perfil temporal del Chrome dedicado (si alguna vez cae aquí)
+.chrome-profile/
