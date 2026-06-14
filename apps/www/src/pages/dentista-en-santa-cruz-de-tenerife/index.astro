@@ -1,0 +1,186 @@
+---
+/**
+ * Quienes Somos — réplica nativa 1:1 del WordPress origen.
+ * URL inmutable: /dentista-en-santa-cruz-de-tenerife/
+ * Textos e imágenes literales del mirror; estructura reconstruida con los
+ * primitivos de marca (Seccion) y el componente de equipo.
+ */
+import Layout from '../../layouts/Layout.astro';
+import Seccion from '../../components/ui/Seccion.astro';
+import Boton from '../../components/ui/Boton.astro';
+import MiembroEquipo from '../../components/paginas/QuienesSomos_MiembroEquipo.astro';
+
+const title = 'Dentista en Santa Cruz de Tenerife';
+const description =
+  'Dentista en Santa Cruz de Tenerife - Dentista en Tenerife - Clínica Dental Bances Sanz';
+
+const equipo = [
+  {
+    nombre: 'Dr. Fernando Bances del Castillo',
+    imagen: '/wp-content/uploads/2025/06/Dr.-Fernando-Bances-del-Castillo-225x300.webp',
+    alt: 'Dr. Fernando Bances del Castillo, odontólogo de Clínica Dental Bances',
+    items: [
+      'Licenciado en Odontología por la Universidad de Salamanca en 2006.',
+      'Máster en implantología y periodoncia Straumann.Diploma en Periodoncia Avanzada en la Universidad Complutense de Madrid.',
+      'Experto en Odontología Estética en la Universidad Complutense de Madrid.',
+      'Múltiples cursos modulares de Endodoncia, cirugía, feruloterapia, y odontopediatría.',
+      'Coautor de artículos científicos.',
+      'Miembro de la Asociación Española de Endodoncia AEDE.',
+      'Colaborador en la comisión científica del Colegio de Odontólogos de Santa Cruz de Tenerife.',
+      'Máster Internacional en Estética dental Avanzada UEMC.',
+    ],
+  },
+  {
+    nombre: 'Dra. Patricia Sanz Orejas',
+    imagen: '/wp-content/uploads/2025/06/Dra.-Patricia-Sanz-Orejas-225x300.webp',
+    alt: 'Dra. Patricia Sanz Orejas, ortodoncista de Clínica Dental Bances',
+    items: [
+      'Licenciada en Odontología por la Universidad Complutense de Madrid en 2013.',
+      'Máster en Ortodoncia y Ortopedia dentofacial en el Hospital San Rafael de Madrid.',
+      'Máster en Ortodoncia avanzada Hospital San Rafael – Universidad Nebrija.',
+      'Invisalign Platinum Provider.',
+      'Experta Universitaria en Cirugía ortognática Universidad Ramon y Cajal y Universidad de Alcalá.',
+      'Publicaciones y participaciones en cursos y congresos.',
+      'Autora de posters y artículos científicos.',
+      'Miembro de la Sociedad Española de Ortodoncia. SEDO.',
+    ],
+  },
+  {
+    nombre: 'Judit Rodríguez',
+    imagen: '/wp-content/uploads/2025/06/Judit-Rodriguez-225x300.webp',
+    alt: 'Judit Rodríguez, higienista dental de Clínica Dental Bances',
+    items: [
+      'Higienista dental.',
+      'Experta en Ortodoncia y Odontopediatría.',
+      'Coordinadora área de ortodoncia.',
+      'Experta en Odontología 3D, e impresión 3D.',
+      'Atención al paciente.',
+      'Técnico en rayos y radioprotección.',
+    ],
+  },
+  {
+    nombre: 'Alejandra Ortega',
+    imagen: '/wp-content/uploads/2025/06/Alejandra-Ortega-225x300.webp',
+    alt: 'Alejandra Ortega, higienista dental de Clínica Dental Bances',
+    items: [
+      'Higiensita dental.',
+      'Coordinadora del área de Periodoncia e Implantes.',
+      'Experta en Periodoncia.',
+      'Experta en Marketing y atención personal.',
+      'Técnico en rayos y radioprotección.',
+    ],
+  },
+  {
+    nombre: 'Thalia Viera',
+    imagen: '/wp-content/uploads/2025/06/Thalia-Viera-225x300.webp',
+    alt: 'Thalia Viera, del equipo de administración de Clínica Dental Bances',
+    items: [
+      'Técnico Administrativo.',
+      'Experta en Marketing y Finanzas.',
+      'Coordinadora área administración.',
+      'Atención al paciente.',
+    ],
+  },
+  {
+    nombre: 'Andrea Rodriguez',
+    imagen: '/wp-content/uploads/2025/06/Andrea-Rodriguez-225x300.webp',
+    alt: 'Andrea Rodriguez, higienista dental de Clínica Dental Bances',
+    items: [
+      'Higiensita dental.',
+      'Encargada de Esterilización.',
+      'Control de materiales y stock.',
+      'Técnico en rayos y radioprotección.',
+    ],
+  },
+  {
+    nombre: 'Victoria García',
+    imagen: '/wp-content/uploads/2025/06/Victoria-Garcia-225x300.webp',
+    alt: 'Victoria García, higienista dental y nutricionista de Clínica Dental Bances',
+    items: [
+      'Higienista dental.',
+      'Nutricionista.',
+      'Experta en periodoncia.',
+      'Atención al paciente.',
+      'Técnico en rayos y radioprotección.',
+    ],
+  },
+  {
+    nombre: 'Dr. José Román Grau',
+    imagen: '/wp-content/uploads/2025/09/DR-Jose-Roman-Grau-225x300.webp',
+    alt: 'Dr. José Román Grau, especialista en implantología y cirugía oral de Clínica Dental Bances',
+    items: [
+      'Licenciado en Odontología por la Universidad del País Vasco.',
+      'Dedicación excluiva a la Implantología y Cirugía Oral.',
+      'Implantología Avanzada en la Universidad de Búfalo, USA.',
+      'Experto en odontología digital e impresión 3D.Especialista en odontología estética.',
+      'Certificado First fit expert, Madrid.',
+      'Especialista en estética multidisciplinar, Madrid.',
+      'Especialista en ácido hialurónico aplicado a la zona oral.',
+    ],
+  },
+];
+---
+
+<Layout title={title} description={description}>
+  <Seccion fondo="bg-white">
+    <div class="grid items-center gap-10 lg:grid-cols-2">
+      <div>
+        <p class="font-heading text-sm font-semibold uppercase tracking-wide text-primary-dark">
+          Dentista en Santa Cruz de Tenerife
+        </p>
+        <h1 class="mt-2 font-heading text-3xl font-bold text-ink sm:text-4xl">
+          Quienes Somos
+        </h1>
+        <p class="mt-6 leading-relaxed text-ink-soft">
+          Somos un equipo joven de dentistas en Santa Cruz de Tenerife, pero con
+          una experiencia de más de 10 años en nuestra Clínica Dental, heredando
+          el buen hacer de más de 40 años de dedicación a la odontología por
+          parte del Dr. Fernando Bances García-Rovés y su esposa Mila,
+          continuando los servicios dentales desde 1970.
+        </p>
+        <p class="mt-4 leading-relaxed text-ink-soft">
+          Formados con las últimas tecnologías y avances, y en constante
+          actualización de conocimientos, dan al paciente el trato amigo y
+          cordial de toda la vida, haciendo de la experiencia en el dentista una
+          situación agradable y confortable.
+        </p>
+        <p class="mt-4 leading-relaxed text-ink-soft">
+          Nuestro único objetivo es cuidar de la salud de nuestros pacientes
+          asesorando y recomendando los mejores tratamientos para cada caso.
+        </p>
+        <div class="mt-8">
+          <Boton href="/#Contacto">Pedir Cita</Boton>
+        </div>
+      </div>
+      <div>
+        <img
+          src="/wp-content/uploads/2025/09/Equipo-Clinica-Dental-Bances-Sanz-Santa-Cruz-de-Tenerife-1024x682.webp"
+          alt="Equipo de la Clínica Dental Bances Sanz en Santa Cruz de Tenerife"
+          width="1024"
+          height="682"
+          loading="eager"
+          decoding="async"
+          class="w-full rounded-2xl object-cover shadow-md"
+        />
+      </div>
+    </div>
+  </Seccion>
+
+  <Seccion fondo="bg-neutral-50">
+    <header class="mx-auto max-w-3xl text-center">
+      <h2 class="font-heading text-2xl font-bold text-ink sm:text-3xl">
+        Nuestro Equipo de Dentistas en Tenerife
+      </h2>
+    </header>
+    <div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      {equipo.map((miembro) => (
+        <MiembroEquipo
+          nombre={miembro.nombre}
+          imagen={miembro.imagen}
+          alt={miembro.alt}
+          items={miembro.items}
+        />
+      ))}
+    </div>
+  </Seccion>
+</Layout>

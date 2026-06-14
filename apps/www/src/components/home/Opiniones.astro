@@ -1,0 +1,98 @@
+---
+/**
+ * Sección "Opiniones de nuestros clientes" — reseñas literales del WordPress.
+ * Cada reseña con valoración de 5 estrellas (decorativa) y autor.
+ */
+import Seccion from '../ui/Seccion.astro';
+
+const opiniones = [
+  {
+    texto:
+      'Mi hijo acaba de finalizar su tratamiento de ortodoncia y no podemos estar más contentos. Recomiendo cien por cien ponerse en las manos de Patricia y Fernando, grandes profesionales. Por lo que respecta al trato recibido tanto por ellos como por todo su equipo...inmejorable!!!',
+    autor: 'Alicia TR',
+  },
+  {
+    texto:
+      'Estamos muy contentos con la experiencia. Desde el primer momento, el trato fue excepcional, tanto para mí como para mi hijo. El personal es muy amable y atento, explicándonos cada paso del procedimiento con claridad. Mi hijo se sintió muy cómodo gracias al trato cercano y a la paciencia del equipo. Sin duda, recomendamos esta clínica a cualquiera. ¡Volveremos sin dudarlo!',
+    autor: 'Raul Garcia Perez',
+  },
+  {
+    texto:
+      'He terminado mi tratamiento de ortodoncia tras 2 años y no he tenido ni una queja ni una pega, desde el principio el equipo entero trasmite una energía superpositiva y durante todo el proceso siempre están pendientes de tu evolución, resolviendo cualquier duda o actuando lo mas rápido posible en cuanto lo necesitas, un equipo de profesionales que vela por la satisfacción de cada paciente y te lo hacen notar, estoy encantada con el resultado y si tuviese que volver a empezar repetiría sin duda en la Clínica Dental Bances. Siempre agradecida 💕💕',
+    autor: 'Ainoa Ramos',
+  },
+  {
+    texto:
+      'Me han hecho perder el pánico que me daba cada vez que tenía que ir al dentista, el trato es exquisito, tanto las chicas como el doctor Fernando, un equipo muy profesional y fantástico!!',
+    autor: 'ana rodriguez',
+  },
+  {
+    texto:
+      'Llevo con ellos años, yo y mi familia, estamos encantados. Tanto con los doctores Patricia y Fernando, como todo el equipo. No solo por el trato sino por la profesionalidad.',
+    autor: 'Rocio Perez',
+  },
+  {
+    texto:
+      'Ayer fue mi primera consulta y la impresión no puede ser mejor, amabilidad y profesionalidad de todos los miembros del equipo que me atendió. Llegué a ellos a través de la página web y puedo decir que todas esas reseñas tan buenas que tienen son 100% verdaderas. Volveremos a vernos.',
+    autor: 'Carmen',
+  },
+  {
+    texto:
+      'El doctor irradia confianza y profesionalidad; en sus gestos, en sus palabras, pero sobre todo en su trabajo. Un profesional que escucha sin prisas y sin miedo a las preguntas lógicas de un paciente que va a poner en sus manos la propia salud. La atención del resto del equipo está a la altura, tanto antes como durante y después. Vengo de otras clínicas y he encontrado la mía. Totalmente recomendable.',
+    autor: 'Jesus Alonso',
+  },
+  {
+    texto:
+      'Grandes profesionales con trato inmejorable a sus pacientes. 100% recomendable. Ahora aún mejor con sus nuevas instalaciones.',
+    autor: 'Laura Henríquez',
+  },
+  {
+    texto:
+      'Hiper contenta con la experiencia! Fui con mucho miedo, ya que nunca había ido al dentista por pánico, y desde la primera toma de contacto supe que me quedaría para el resto de mis días con ellos. Son un equipo muy especial, muy humanos, muy cercanos, muy cariñosos, y por encima de todo, muy profesionales, te hacen formar parte de la familia ❤️ Gracias por revivir mi sonrisa y quitarme el miedo jajajaj seguiré haciendo todos mis tratamientos con ustedes no lo dudo ni un momento, y por supuesto al todo el que pueda recomendar lo haré. ❤️',
+    autor: 'Haridian Calvet',
+  },
+  {
+    texto:
+      'Mi experiencia ha sido muy positiva desde el principio. Me he puesto la ortodoncia y estoy contenta con el resultado, además de otros tratamientos con los cuáles me siento muy bien. Destacaría la profesionalidad del equipo y la cercanía, los cuáles te transmiten seguridad y confianza en todo momento. Es mi clínica de confianza. Totalmente recomendable.',
+    autor: 'Yulimar Garcia Perdomo',
+  },
+  {
+    texto:
+      'Llevo varios años acudiendo y detrás se han ido sumando varios miembros de mi familia. Son sobre todo grandes profesionales y tienen un aspecto muy destacable: son extremadamente puntuales con las citas y muy amables. Los recomiendo sin duda.',
+    autor: 'Érika Méndez Suárez',
+  },
+];
+---
+
+<Seccion fondo="bg-white">
+  <header class="mx-auto max-w-3xl text-center">
+    <p class="font-heading text-sm font-semibold uppercase tracking-wide text-primary-dark">
+      Reseñas
+    </p>
+    <h2 class="mt-2 font-heading text-3xl font-bold text-ink sm:text-4xl">
+      Opiniones de nuestros clientes
+    </h2>
+  </header>
+
+  <ul class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    {
+      opiniones.map((o) => (
+        <li class="flex flex-col rounded-xl border border-gray-200 bg-gray-50 p-6">
+          <div class="flex gap-1 text-primary" aria-label="Valoración: 5 de 5 estrellas">
+            {
+              Array.from({ length: 5 }).map(() => (
+                <svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5" aria-hidden="true">
+                  <path d="M12 2l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.8 6.2 19.9l1.1-6.5L2.6 8.8l6.5-.9L12 2z" />
+                </svg>
+              ))
+            }
+          </div>
+          <blockquote class="mt-4 flex-1 text-sm leading-relaxed text-ink-soft">
+            {o.texto}
+          </blockquote>
+          <cite class="mt-4 font-heading text-sm font-bold not-italic text-ink">{o.autor}</cite>
+        </li>
+      ))
+    }
+  </ul>
+</Seccion>

@@ -1,0 +1,52 @@
+---
+/**
+ * Índice del blog — `/recomendaciones-y-consejos-dentales/`.
+ * Lista TODOS los posts publicados (orden pubDate descendente). Cada card
+ * enlaza al `urlOriginal` del post (URL inmutable 1:1 con el WordPress).
+ */
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Seccion from '../../components/ui/Seccion.astro';
+import PostCard from '../../components/blog/PostCard.astro';
+import { hrefPost, ordenarPorFecha } from '../../utils/blog';
+
+const todos = await getCollection('posts', ({ data }) => !data.draft);
+const posts = ordenarPorFecha(todos);
+
+const title = 'Recomendaciones y consejos dentales';
+const description =
+  'Recomendaciones y consejos para cuidar tu dentadura y conseguir una sonrisa perfecta. El blog de Clínica Dental Bances en Santa Cruz de Tenerife.';
+---
+
+<Layout title={title} description={description}>
+  <Seccion>
+    <header class="mx-auto max-w-3xl text-center">
+      <p class="font-heading text-sm font-semibold uppercase tracking-wide text-primary-dark">
+        Nuestro Blog
+      </p>
+      <h1 class="mt-2 font-heading text-3xl font-bold text-ink sm:text-4xl">
+        {title}
+      </h1>
+      <p class="mt-4 leading-relaxed text-ink-soft">
+        En esta sección obtendrás recomendaciones y consejos para cuidar tu dentadura y
+        obtener una sonrisa perfecta. Si tienes cualquier consulta, no dudes en contactar
+        con nosotros sin ningún compromiso a través de email, teléfono o en nuestro
+        formulario de contacto.
+      </p>
+    </header>
+
+    <ul class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        posts.map((post) => (
+          <PostCard
+            title={post.data.title}
+            description={post.data.description}
+            href={hrefPost(post)}
+            pubDate={post.data.pubDate}
+            heroImage={post.data.heroImage}
+          />
+        ))
+      }
+    </ul>
+  </Seccion>
+</Layout>

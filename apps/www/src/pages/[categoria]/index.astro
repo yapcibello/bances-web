@@ -1,0 +1,98 @@
+---
+/**
+ * Listado de categoría del blog — URL `/{categoria}/`.
+ * Genera una página por cada categoría de la colección `categorias` (17),
+ * preservando sus URLs inmutables aunque alguna no tenga posts.
+ *
+ * COLISIONES: se excluyen los slugs reservados para páginas estáticas de
+ * contenido (SLUGS_ESTATICOS) por seguridad, aunque ninguna categoría real
+ * coincide con ellos.
+ *
+ * Los posts de la categoría se determinan por el PRIMER segmento del
+ * `urlOriginal` (fuente de verdad de la URL inmutable), no por categories[0].
+ */
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Seccion from '../../components/ui/Seccion.astro';
+import PostCard from '../../components/blog/PostCard.astro';
+import {
+  parsearPermalink,
+  hrefPost,
+  ordenarPorFecha,
+  SLUGS_ESTATICOS,
+} from '../../utils/blog';
+
+export async function getStaticPaths() {
+  const [categorias, postsAll] = await Promise.all([
+    getCollection('categorias'),
+    getCollection('posts', ({ data }) => !data.draft),
+  ]);
+
+  return categorias
+    .filter((cat) => !SLUGS_ESTATICOS.has(cat.data.slug))
+    .map((cat) => {
+      const posts = ordenarPorFecha(
+        postsAll.filter(
+          (post) => parsearPermalink(post.data.urlOriginal)?.categoria === cat.data.slug,
+        ),
+      );
+      return {
+        params: { categoria: cat.data.slug },
+        props: { categoria: cat.data, posts },
+      };
+    });
+}
+
+const { categoria, posts } = Astro.props;
+
+const description =
+  categoria.lead ?? `Artículos de la categoría ${categoria.nombre} en el blog de Clínica Dental Bances.`;
+---
+
+<Layout title={categoria.nombre} description={description}>
+  <Seccion>
+    <header class="mx-auto max-w-3xl text-center">
+      <p class="font-heading text-sm font-semibold uppercase tracking-wide text-primary-dark">
+        Categoría
+      </p>
+      <h1 class="mt-2 font-heading text-3xl font-bold text-ink sm:text-4xl">
+        {categoria.nombre}
+      </h1>
+      {categoria.lead && (
+        <p class="mt-4 leading-relaxed text-ink-soft">{categoria.lead}</p>
+      )}
+    </header>
+
+    {
+      posts.length > 0 ? (
+        <ul class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post) => (
+            <PostCard
+              title={post.data.title}
+              description={post.data.description}
+              href={hrefPost(post)}
+              pubDate={post.data.pubDate}
+              heroImage={post.data.heroImage}
+            />
+          ))}
+        </ul>
+      ) : (
+        <p class="mt-12 text-center text-ink-soft">
+          Todavía no hay artículos en esta categoría.
+        </p>
+      )
+    }
+
+    <p class="mt-12 text-center">
+      <a
+        href="/recomendaciones-y-consejos-dentales/"
+        class="inline-flex items-center font-heading text-sm font-semibold text-primary-dark hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-dark"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-1 h-4 w-4" aria-hidden="true">
+          <path d="M19 12H5M11 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        Ver todo el blog
+      </a>
+    </p>
+  </Seccion>
+</Layout>

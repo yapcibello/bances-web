@@ -9,3 +9,8 @@
 [2026-06-12] - [x] Fase 3 estructura — monorepo @bances/* creado, pnpm install y build:www en verde, commit inicial b1c1596
 [2026-06-12] - [x] Blueprint rellenado con contenido real (stack, arquitectura, despliegue, runbook, api, deviations) — Guardian PASSED
 [2026-06-12] - [x] Plan de continuación de fases 4-14 guardado en planes/2026-06-12-init-web-astro-continuacion/
+[2026-06-13] - [x] Fase 4 migración: TODAS las URLs migradas (84 páginas, build verde) — posts, taxonomías, chrome, home, páginas estáticas, formulario PHP
+[2026-06-13] - [x] WP REST API → 46 posts MDX + 17 categorías + 12 tags + 171 imágenes (scripts/import-blog-wp.mjs)
+[2026-06-13] - [x] Chrome nativo AAA (Header/Navbar/Footer) + MDX + fuentes Inter/Heebo
+[2026-06-13] - [x] Rutas dinámicas blog ([categoria]/[slug], listados categorías/tags) con paridad 1:1 de URLs
+[2026-06-13] - [x] Backend formulario PHP (public/api/contacto.php, PHPMailer)

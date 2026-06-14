@@ -1,17 +1,46 @@
 ---
 /**
- * Header — esqueleto AAA.
- * SOLO esqueleto: el diseño 1:1 del WordPress llega en la fase migración.
+ * Header — réplica nativa 1:1 del header Elementor de clinicadentalbances.com.
+ * Logo horizontal a la izquierda, navegación principal en el centro/derecha
+ * y CTA "Pedir Cita" (naranja) al final. Sticky con borde inferior suave.
+ *
+ * Accesibilidad AAA: landmark <header>, tap targets >= 44px, foco visible.
  */
 import { siteConfig } from '../utils/siteConfig';
+import { ctaPedirCita } from '../utils/siteConfig';
 import Navbar from './Navbar.astro';
+
+const { marca, logo } = siteConfig;
 ---
 
-<header class="border-b border-primary-pale">
-  <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-4">
-    <a href="/" class="inline-flex items-center min-h-[44px] font-heading text-lg font-bold text-primary" aria-label={`Ir al inicio — ${siteConfig.marca}`}>
-      {siteConfig.marca}
+<header class="sticky top-0 z-40 border-b border-primary-pale/60 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
+  <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 lg:px-8">
+    <!-- Logo horizontal -> inicio -->
+    <a
+      href="/"
+      class="inline-flex shrink-0 items-center"
+      aria-label={`Ir al inicio — ${marca}`}
+    >
+      <img
+        src={logo.horizontal}
+        alt={marca}
+        width={logo.width}
+        height={logo.height}
+        class="h-auto w-[150px] lg:w-[190px]"
+        loading="eager"
+        decoding="async"
+      />
     </a>
+
+    <!-- Navegación principal (desktop) + menú móvil -->
     <Navbar />
+
+    <!-- CTA destacada (desktop) -->
+    <a
+      href={ctaPedirCita.href}
+      class="hidden shrink-0 items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary-dark focus-visible:bg-primary-dark lg:inline-flex"
+    >
+      {ctaPedirCita.label}
+    </a>
   </div>
 </header>

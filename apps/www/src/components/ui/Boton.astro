@@ -1,0 +1,27 @@
+---
+/**
+ * Primitivo de botón/enlace de marca — naranja Bances.
+ * Usa `primary-dark` como fondo para garantizar contraste AAA del texto
+ * blanco; el naranja puro queda para hover/decoración.
+ */
+interface Props {
+  href: string;
+  /** Variante visual: solid (relleno) | outline (borde). */
+  variante?: 'solid' | 'outline';
+  class?: string;
+}
+
+const { href, variante = 'solid', class: clase = '' } = Astro.props;
+
+const base =
+  'inline-flex items-center justify-center min-h-[44px] rounded-md px-6 py-3 font-heading text-base font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-dark';
+const variantes = {
+  solid: 'bg-primary-dark text-white hover:bg-primary',
+  outline:
+    'border-2 border-primary-dark text-primary-dark hover:bg-primary-dark hover:text-white',
+};
+---
+
+<a href={href} class:list={[base, variantes[variante], clase]}>
+  <slot />
+</a>

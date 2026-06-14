@@ -1,0 +1,143 @@
+---
+/**
+ * Sección "Sigue a la Clínica Dental Bances Sanz" (id="Contacto", ancla del
+ * menú). Réplica 1:1 del bloque de contacto del WordPress: horario real,
+ * datos de contacto, formulario MetForm (campos exactos) y mapa de Google.
+ *
+ * El formulario apunta a /api/contacto.php (backend PHP+PHPMailer — fase
+ * deploy). Textos literales del sitio origen.
+ */
+import { siteConfig } from '../../utils/siteConfig';
+import Seccion from '../ui/Seccion.astro';
+
+const horario = [
+  { dia: 'Lunes', horas: '9AM-8PM' },
+  { dia: 'Martes', horas: '11AM-8PM' },
+  { dia: 'Miércoles', horas: '9AM-8PM' },
+  { dia: 'Jueves', horas: '9AM-8PM' },
+  { dia: 'Viernes', horas: '9AM-3PM' },
+];
+
+const tratamientos = [
+  'Implantes dentales',
+  'Blanqueamiento Dental',
+  'Cirugía Oral',
+  'Endodoncias',
+  'Odontología Conservadora',
+  'Odontopediatría',
+  'Ortodoncia',
+  'Periodoncia',
+  'Prótesis Dentales',
+  'Seguros Dentales',
+  'Otros',
+];
+
+const mapaSrc =
+  'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3507.393539154488!2d-16.260950684456713!3d28.467692698272174!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xc6ff36e7e8b0f3d%3A0x0!2zQy4gSnVhbiBQYWJsbyBJSSwgMjYsIDM4MDA0IFNhbnRhIENydXogZGUgVGVuZXJpZmU!5e0!3m2!1ses!2ses!4v1700000000000';
+---
+
+<Seccion id="Contacto" class="bg-primary-pale/20">
+  <div class="mx-auto max-w-6xl">
+    <h2 class="font-heading text-3xl font-bold text-ink text-center">
+      Sigue a la Clínica Dental Bances Sanz
+    </h2>
+
+    <div class="mt-10 grid gap-10 md:grid-cols-2">
+      <!-- Columna izquierda: horario + datos -->
+      <div class="space-y-8">
+        <div>
+          <h3 class="font-heading text-xl font-semibold text-ink">Horario atención al cliente</h3>
+          <dl class="mt-4 divide-y divide-primary-pale/60 border-y border-primary-pale/60">
+            {horario.map(({ dia, horas }) => (
+              <div class="flex items-center justify-between py-2">
+                <dt class="font-medium text-ink">{dia}</dt>
+                <dd class="text-ink-soft">{horas}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+
+        <div>
+          <h3 class="font-heading text-xl font-semibold text-ink">Datos de contacto</h3>
+          <ul class="mt-4 space-y-2 text-ink-soft">
+            <li>
+              <span class="font-medium text-ink">Dirección:</span>{' '}
+              {siteConfig.address.street}, {siteConfig.address.postalCode} {siteConfig.address.city}
+            </li>
+            {siteConfig.phones.map((t) => (
+              <li>
+                <span class="font-medium text-ink">{t.label}:</span>{' '}
+                <a class="text-primary-dark underline hover:no-underline" href={t.href}>{t.numero}</a>
+              </li>
+            ))}
+            <li>
+              <span class="font-medium text-ink">Email:</span>{' '}
+              <a class="text-primary-dark underline hover:no-underline" href={`mailto:${siteConfig.email}`}>
+                {siteConfig.email}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Columna derecha: formulario -->
+      <div>
+        <form action="/api/contacto.php" method="post" class="space-y-4" aria-label="Formulario de contacto y cita">
+          <div>
+            <label for="cf-nombre" class="block text-sm font-medium text-ink">Nombre <span aria-hidden="true">*</span></label>
+            <input id="cf-nombre" name="nombre" type="text" required autocomplete="name"
+              class="mt-1 w-full rounded-md border border-primary-pale bg-white px-3 py-2 text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" />
+          </div>
+          <div>
+            <label for="cf-email" class="block text-sm font-medium text-ink">Correo electrónico <span aria-hidden="true">*</span></label>
+            <input id="cf-email" name="email" type="email" required autocomplete="email"
+              class="mt-1 w-full rounded-md border border-primary-pale bg-white px-3 py-2 text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" />
+          </div>
+          <div>
+            <label for="cf-telefono" class="block text-sm font-medium text-ink">Teléfono</label>
+            <input id="cf-telefono" name="telefono" type="tel" autocomplete="tel"
+              class="mt-1 w-full rounded-md border border-primary-pale bg-white px-3 py-2 text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" />
+          </div>
+          <div>
+            <label for="cf-tratamiento" class="block text-sm font-medium text-ink">Tratamiento</label>
+            <select id="cf-tratamiento" name="tratamiento"
+              class="mt-1 w-full rounded-md border border-primary-pale bg-white px-3 py-2 text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+              <option value="">—Por favor, elige una opción—</option>
+              {tratamientos.map((t) => <option value={t}>{t}</option>)}
+            </select>
+          </div>
+          <div>
+            <label for="cf-mensaje" class="block text-sm font-medium text-ink">Mensaje <span aria-hidden="true">*</span></label>
+            <textarea id="cf-mensaje" name="mensaje" rows="4" required
+              class="mt-1 w-full rounded-md border border-primary-pale bg-white px-3 py-2 text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"></textarea>
+          </div>
+          <div class="flex items-start gap-2">
+            <input id="cf-rgpd" name="rgpd" type="checkbox" required aria-describedby="cf-rgpd-desc"
+              class="mt-1 h-5 w-5 rounded border-primary-pale text-primary focus-visible:ring-2 focus-visible:ring-primary" />
+            <label id="cf-rgpd-desc" for="cf-rgpd" class="text-sm text-ink-soft">
+              He leído y acepto la
+              <a class="text-primary-dark underline hover:no-underline" href="/politica-de-privacidad/">política de privacidad</a>.
+            </label>
+          </div>
+          <button type="submit"
+            class="rounded-full bg-primary px-6 py-3 font-semibold text-white transition-colors hover:bg-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
+            Enviar
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Mapa -->
+    <div class="mt-10 overflow-hidden rounded-lg border border-primary-pale/60">
+      <iframe
+        src={mapaSrc}
+        title="Mapa de ubicación de Clínica Dental Bances en Santa Cruz de Tenerife"
+        width="100%"
+        height="400"
+        style="border:0;"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen></iframe>
+    </div>
+  </div>
+</Seccion>

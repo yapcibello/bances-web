@@ -1,0 +1,98 @@
+---
+/**
+ * Sección "Servicios dentales que ofrecemos" — cards de tratamientos con su
+ * tagline literal del WordPress origen. Los href usan los slugs reales del
+ * sitio (URLs inmutables), tomados del menú de tratamientos.
+ */
+import Seccion from '../ui/Seccion.astro';
+
+const servicios = [
+  {
+    titulo: 'Blanqueamiento Dental',
+    texto: '¿No te atreves a sonreír? ¿O quieres que se fijen en tu sonrisa?',
+    href: '/blanqueamiento-dental/',
+  },
+  {
+    titulo: 'Cirugía Oral',
+    texto: 'Las muelas del juicio ya no son un problema',
+    href: '/cirugia-oral/',
+  },
+  {
+    titulo: 'Endodoncias',
+    texto: 'Evita perder un diente con las mejores técnicas en endodoncia',
+    href: '/endodoncias/',
+  },
+  {
+    titulo: 'Implantes Dentales',
+    texto: 'Consigue reponer ese diente perdido y vuelve a sonreír.',
+    href: '/implantes-dentales/',
+  },
+  {
+    titulo: 'Odontología Conservadora',
+    texto: '¿No te atreves a sonreír? ¿O quieres que se fijen en tu sonrisa?',
+    href: '/odontologia-conservadora/',
+  },
+  {
+    titulo: 'Odontopediatría',
+    texto: 'Los niños disfrutan en el dentista con técnicas adaptadas a su edad',
+    href: '/odontopediatria/',
+  },
+  {
+    titulo: 'Ortodoncia',
+    texto: 'Corrige la posición de tus dientes sin que te des cuenta',
+    href: '/ortodoncia/',
+  },
+  {
+    titulo: 'Periodoncia',
+    texto: 'Las encías ya no tienen porque sangrarte ni doler',
+    href: '/periodoncia/',
+  },
+  {
+    titulo: 'Prótesis Dentales',
+    texto: 'Recupera piezas perdidas sin que se note y con total comodidad',
+    href: '/protesis-dentales/',
+  },
+];
+---
+
+<Seccion fondo="bg-primary-pale/20">
+  <header class="mx-auto max-w-3xl text-center">
+    <p class="font-heading text-sm font-semibold uppercase tracking-wide text-primary-dark">
+      Tratamientos
+    </p>
+    <h2 class="mt-2 font-heading text-3xl font-bold text-ink sm:text-4xl">
+      Servicios dentales que ofrecemos
+    </h2>
+    <p class="mt-4 leading-relaxed text-ink-soft">
+      Somos una Clínica Dental que cuenta con un equipo de profesionales altamente
+      cualificados. Disponemos de la tecnología más avanzada para corregir o solucionar
+      cualquier problema dental que tenga. A continuación mostramos los diferentes
+      tratamientos dentales que ofrecemos en nuestra Clínica Dental ubicada en la ciudad
+      de Santa Cruz de Tenerife.
+    </p>
+  </header>
+
+  <ul class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {
+      servicios.map((s) => (
+        <li>
+          <a
+            href={s.href}
+            class="group flex h-full flex-col rounded-lg border border-primary-pale/40 bg-white p-6 shadow-sm transition-shadow hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-dark"
+          >
+            <h3 class="font-heading text-lg font-bold text-ink group-hover:text-primary-dark">
+              {s.titulo}
+            </h3>
+            <p class="mt-2 flex-1 text-sm leading-relaxed text-ink-soft">{s.texto}</p>
+            <span class="mt-4 inline-flex items-center font-heading text-sm font-semibold text-primary-dark">
+              Más información
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-1 h-4 w-4" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Seccion>

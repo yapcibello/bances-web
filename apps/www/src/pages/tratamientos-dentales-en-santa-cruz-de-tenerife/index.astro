@@ -1,0 +1,135 @@
+---
+/**
+ * Tratamientos dentales en Santa Cruz de Tenerife — índice de tratamientos.
+ * URL inmutable: /tratamientos-dentales-en-santa-cruz-de-tenerife/
+ * Textos literales del mirror; grid de enlaces a las categorías de tratamiento
+ * (URLs inmutables del WordPress origen).
+ */
+import Layout from '../../layouts/Layout.astro';
+import Seccion from '../../components/ui/Seccion.astro';
+import Boton from '../../components/ui/Boton.astro';
+import Tarjeta from '../../components/paginas/Tratamientos_Tarjeta.astro';
+
+const title = 'Tratamientos dentales en Santa Cruz de Tenerife';
+const description =
+  'Ofrecemos todo tipo de tratamientos dentales, haciendo posible hacer un tratamiento integral de todas las patologías orales - Consúltanos sin compromiso';
+
+// Tarjetas con lema literal del origen (orden del mirror).
+const tratamientos = [
+  {
+    titulo: 'Blanqueamiento Dental',
+    href: '/blanqueamiento-dental/',
+    lema: '¿No te atreves a sonreír? ¿O quieres que se fijen en tu sonrisa?',
+  },
+  {
+    titulo: 'Cirugía Oral',
+    href: '/cirugia-oral/',
+    lema: 'Las muelas del juicio ya no son un problema',
+  },
+  {
+    titulo: 'Endodoncias',
+    href: '/endodoncias/',
+    lema: 'Evita perder un diente con las mejores técnicas en endodoncia',
+  },
+  {
+    titulo: 'Implantes Dentales',
+    href: '/implantes-dentales/',
+    lema: 'Consigue reponer ese diente perdido y vuelve a sonreír.',
+  },
+  {
+    titulo: 'Odontología Conservadora',
+    href: '/odontologia-conservadora/',
+    lema: '¿No te atreves a sonreír? ¿O quieres que se fijen en tu sonrisa?',
+  },
+  {
+    titulo: 'Odontopediatría',
+    href: '/odontopediatria/',
+    lema: 'Los niños disfrutan en el dentista con técnicas adaptadas a su edad',
+  },
+  {
+    titulo: 'Ortodoncia',
+    href: '/ortodoncia/',
+    lema: 'Corrige la posición de tus dientes sin que te des cuenta',
+  },
+  {
+    titulo: 'Periodoncia',
+    href: '/periodoncia/',
+    lema: 'Las encías ya no tienen porque sangrarte ni doler',
+  },
+  {
+    titulo: 'Prótesis Dentales',
+    href: '/protesis-dentales/',
+    lema: 'Recupera piezas perdidas sin que se note y con total comodidad',
+  },
+  // Resto de categorías de tratamiento (URLs inmutables del menú del origen).
+  {
+    titulo: 'Ortodoncia Invisible',
+    href: '/ortodoncia/invisalign-la-ortodoncia-invisible/',
+  },
+  {
+    titulo: 'Odontología Digital',
+    href: '/odontologia-digital/',
+  },
+  {
+    titulo: 'Radiología Dental 3D',
+    href: '/radiologia-dental-3d/',
+  },
+];
+---
+
+<Layout title={title} description={description}>
+  <Seccion fondo="bg-white">
+    <header class="mx-auto max-w-3xl text-center">
+      <h1 class="font-heading text-3xl font-bold text-ink sm:text-4xl">
+        Tratamientos dentales en Santa Cruz de Tenerife
+      </h1>
+      <p class="mt-6 leading-relaxed text-ink-soft">
+        Ofrecemos todo tipo de tratamientos dentales, haciendo así posible hacer
+        un tratamiento integral de todas las patologías orales en nuestra
+        clínica dental de Santa Cruz de Tenerife, sin tener que desplazarse a
+        otro centro.
+      </p>
+      <p class="mt-4 leading-relaxed text-ink-soft">
+        Nuestros tratamientos, realizados con los mejores materiales y últimas
+        tecnologías, consiguen resultados fantásticos en cortas sesiones en la
+        clínica dental y con un grado de confort muy alto, haciendo su
+        experiencia dental agradable.
+      </p>
+      <p class="mt-4 font-heading font-semibold text-ink">
+        Realizamos diferentes tipos de tratamientos dentales:
+      </p>
+    </header>
+
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {tratamientos.map((t) => (
+        <Tarjeta titulo={t.titulo} href={t.href} lema={t.lema} />
+      ))}
+    </div>
+  </Seccion>
+
+  <Seccion fondo="bg-neutral-50">
+    <div class="mx-auto max-w-3xl text-center">
+      <h2 class="font-heading text-2xl font-bold text-ink sm:text-3xl">
+        Servicios dentales en Santa Cruz de Tenerife
+      </h2>
+      <p class="mt-6 leading-relaxed text-ink-soft">
+        Ofrecemos todos los tratamientos dentales posibles en nuestra clínica
+        dental, para que sin moverte de Santa Cruz de Tenerife tengas un
+        tratamiento integral, tanto adultos como niños, y con una calidad
+        excepcional.
+      </p>
+      <p class="mt-4 leading-relaxed text-ink-soft">
+        Los dentistas te asesorarán, haciendo un seguimiento directo y
+        personalizado de cada caso, porque nuestros pacientes no son números.
+      </p>
+      <p class="mt-4 leading-relaxed text-ink-soft">
+        Los años avalan nuestra trayectoria, y ofrecemos nuestros servicios
+        dentales para nuestros pacientes de Santa Cruz de Tenerife, y el resto
+        de islas.
+      </p>
+      <div class="mt-8">
+        <Boton href="/#Contacto">Pedir Cita</Boton>
+      </div>
+    </div>
+  </Seccion>
+</Layout>

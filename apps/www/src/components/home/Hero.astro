@@ -1,0 +1,115 @@
+---
+/**
+ * Hero de la home — marca BANCES SANZ sobre imagen de fondo, eslogan y
+ * mini-formulario de cita rápida (Nombre, Email) que dirige a #Contacto.
+ * Único <h1> de la página (AAA). Textos literales del WordPress origen.
+ *
+ * Fondo: foto real del equipo de la clínica (replica el tono luminoso del
+ * sitio origen). El oscurecimiento es LOCALIZADO en la columna de texto
+ * mediante un degradado que solo cubre la izquierda, dejando la imagen
+ * visible a la derecha y garantizando contraste AAA del texto blanco.
+ */
+// Fondo del hero: vídeo igual que el WordPress origen (Elementor background
+// video). Imagen del equipo como poster y como fallback cuando se reduce el
+// movimiento (prefers-reduced-motion) — AAA 2.3.3.
+const heroVideo =
+  '/wp-content/uploads/2025/09/Clinica-Dental-Bances-Sanz-Santa-Cruz-de-tenerife.mp4';
+const heroBg =
+  '/wp-content/uploads/2025/09/Equipo-Clinica-Dental-Bances-Sanz-Santa-Cruz-de-Tenerife.webp';
+---
+
+<section class="relative overflow-hidden bg-ink">
+  <!-- Vídeo de fondo (decorativo); solo con movimiento permitido -->
+  <video
+    class="absolute inset-0 hidden h-full w-full object-cover motion-safe:block"
+    autoplay
+    muted
+    loop
+    playsinline
+    poster={heroBg}
+    aria-hidden="true"
+    tabindex="-1"
+  >
+    <source src={heroVideo} type="video/mp4" />
+  </video>
+  <!-- Fallback estático (prefers-reduced-motion) -->
+  <img
+    src={heroBg}
+    alt=""
+    aria-hidden="true"
+    width="1920"
+    height="800"
+    fetchpriority="high"
+    class="absolute inset-0 h-full w-full object-cover motion-safe:hidden"
+  />
+  <!-- Degradado localizado: oscuro a la izquierda (zona del texto), -->
+  <!-- transparente a la derecha. Garantiza 4.5:1 sobre el texto blanco. -->
+  <div
+    class="absolute inset-0 bg-gradient-to-r from-ink/85 via-ink/60 to-ink/20 lg:from-ink/85 lg:via-ink/45 lg:to-transparent"
+  >
+  </div>
+
+  <div
+    class="relative mx-auto grid max-w-[1140px] gap-10 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:items-center lg:gap-12 lg:px-8 lg:py-28"
+  >
+    <!-- Columna texto -->
+    <div class="text-white drop-shadow-sm">
+      <p class="font-heading text-lg font-medium text-white">
+        Clínica Dental en Santa Cruz de Tenerife
+      </p>
+      <h1
+        class="mt-2 font-heading text-5xl font-extrabold tracking-tight sm:text-6xl"
+      >
+        BANCES SANZ
+      </h1>
+      <p class="mt-4 text-2xl font-light text-white">
+        Desde 1970 cuidando tu sonrisa
+      </p>
+    </div>
+
+    <!-- Columna formulario de cita rápida -->
+    <div class="rounded-xl bg-white p-6 shadow-2xl sm:p-8">
+      <h2 class="font-heading text-xl font-bold text-ink">Pide tu cita</h2>
+      <p class="mt-1 text-sm text-ink-soft">
+        Déjanos tus datos y te llamamos sin compromiso.
+      </p>
+      <form
+        action="/api/contacto.php"
+        method="post"
+        class="mt-5 space-y-4"
+        aria-label="Solicitud rápida de cita"
+      >
+        <div>
+          <label for="hero-nombre" class="block text-sm font-medium text-ink"
+            >Nombre</label
+          >
+          <input
+            type="text"
+            id="hero-nombre"
+            name="nombre"
+            required
+            class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2.5 text-ink focus:border-primary-dark focus:outline focus:outline-2 focus:outline-primary-dark"
+          />
+        </div>
+        <div>
+          <label for="hero-email" class="block text-sm font-medium text-ink"
+            >Correo electrónico</label
+          >
+          <input
+            type="email"
+            id="hero-email"
+            name="email"
+            required
+            class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2.5 text-ink focus:border-primary-dark focus:outline focus:outline-2 focus:outline-primary-dark"
+          />
+        </div>
+        <button
+          type="submit"
+          class="inline-flex min-h-[44px] w-full items-center justify-center rounded-md bg-primary-dark px-6 py-3 font-heading font-semibold text-white transition-colors hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-dark"
+        >
+          Solicitar cita
+        </button>
+      </form>
+    </div>
+  </div>
+</section>

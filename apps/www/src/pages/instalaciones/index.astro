@@ -1,0 +1,83 @@
+---
+/**
+ * Instalaciones — réplica nativa de /instalaciones/ del WordPress origen.
+ * Texto literal del sitio + galería de fotos de la clínica (CLINICA-NUEVA-1.1-*).
+ */
+import Layout from '../../layouts/Layout.astro';
+import Seccion from '../../components/ui/Seccion.astro';
+
+const titulo = 'Instalaciones de la Clínica Dental en Tenerife';
+const descripcion =
+  'Instalaciones de la Clínica Dental Bances en Santa Cruz de Tenerife: equipadas al detalle para tu comodidad, desde la sala de espera hasta los gabinetes.';
+
+const intro =
+  'Nos esforzamos cada día por cuidar al máximo los detalles y crear el ambiente más familiar para que cada persona se sienta cómoda y relajada.';
+const intro2 =
+  'Nuestras instalaciones de la Clínica Dental están equipadas en detalle desde la sala de espera, con Play Station, televisión, música ambiental relajada, wifi, y pinturas para los más pequeños, hasta los gabinetes con la última tecnología.';
+
+const galeria = [
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-1.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-2.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-3.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-4.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-6.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-7.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-8.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-10.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-13.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-14.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-15.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-18.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-19.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-20.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-21.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-22.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-23.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-24.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-25.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-27.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-29.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-32.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-33.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-35.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-36.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-37.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-38.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-40.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-41.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-42.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-43.webp',
+  '/wp-content/uploads/2025/06/CLINICA-NUEVA-1.1-44.webp',
+];
+---
+
+<Layout title={`${titulo} — Clínica Dental Bances`} description={descripcion}>
+  <Seccion>
+    <div class="mx-auto max-w-4xl text-center">
+      <h1 class="font-heading text-3xl font-bold text-ink sm:text-4xl">{titulo}</h1>
+      <p class="mt-6 text-lg text-ink-soft">{intro}</p>
+      <p class="mt-4 text-ink-soft">{intro2}</p>
+    </div>
+  </Seccion>
+
+  <Seccion class="bg-primary-pale/20">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="sr-only">Galería de fotos de las instalaciones</h2>
+      <ul role="list" class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        {galeria.map((src, i) => (
+          <li class="overflow-hidden rounded-lg border border-primary-pale/40">
+            <img
+              src={src}
+              alt={`Instalaciones de la Clínica Dental Bances en Santa Cruz de Tenerife (foto ${i + 1})`}
+              width="600"
+              height="450"
+              loading="lazy"
+              decoding="async"
+              class="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+            />
+          </li>
+        ))}
+      </ul>
+    </div>
+  </Seccion>
+</Layout>

@@ -8,12 +8,23 @@
 
 export const siteConfig = {
   name: 'Clínica Dental Bances',
-  legalName: 'Clínica Dental Bances',
+  legalName: 'Clínica Dental Bances Sanz',
+  brandName: 'Bances Sanz',
+  slogan: 'Desde 1970 cuidando tu sonrisa',
+  since: 1970,
   title: 'Clínica Dental Bances — Santa Cruz de Tenerife',
   description:
     'Clínica Dental Bances en Santa Cruz de Tenerife. Tratamientos dentales, seguros dentales y atención odontológica personalizada.',
 
   url: 'https://clinicadentalbances.com',
+
+  // Logos reales (rutas preservadas del WP).
+  logo: {
+    horizontal: '/wp-content/uploads/2025/05/logo-horizontal-bances-sanz.webp',
+    vertical: '/wp-content/uploads/2025/05/logo-vertical-bances-sanz.webp',
+    width: 190,
+    height: 85,
+  },
 
   // Dirección real del sitio actual.
   address: {

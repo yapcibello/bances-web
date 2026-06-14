@@ -1,0 +1,62 @@
+---
+/**
+ * Sección "Asociaciones y Empresas Colaboradoras" — logos de partners.
+ * Imágenes reales del WordPress origen (rutas preservadas).
+ */
+import Seccion from '../ui/Seccion.astro';
+
+const logos = [
+  {
+    src: '/wp-content/uploads/2025/06/logo_Straumann.png',
+    alt: 'Straumann',
+    w: 200,
+    h: 60,
+  },
+  {
+    src: '/wp-content/uploads/2025/06/logo_aede.jpg',
+    alt: 'AEDE — Asociación Española de Endodoncia',
+    w: 200,
+    h: 80,
+  },
+  {
+    src: '/wp-content/uploads/2025/06/invisalign-platinum-provider.png',
+    alt: 'Invisalign Platinum Provider',
+    w: 150,
+    h: 200,
+  },
+  {
+    src: '/wp-content/uploads/2025/06/Logo-SEDO-300x83-1.png',
+    alt: 'SEDO — Sociedad Española de Ortodoncia',
+    w: 300,
+    h: 83,
+  },
+];
+---
+
+<Seccion fondo="bg-gray-50">
+  <header class="mx-auto max-w-3xl text-center">
+    <p class="font-heading text-sm font-semibold uppercase tracking-wide text-primary-dark">
+      Colaboraciones
+    </p>
+    <h2 class="mt-2 font-heading text-3xl font-bold text-ink sm:text-4xl">
+      Asociaciones y Empresas Colaboradoras
+    </h2>
+  </header>
+
+  <ul class="mt-10 flex flex-wrap items-center justify-center gap-10">
+    {
+      logos.map((l) => (
+        <li>
+          <img
+            src={l.src}
+            alt={l.alt}
+            width={l.w}
+            height={l.h}
+            loading="lazy"
+            class="h-20 w-auto object-contain grayscale transition hover:grayscale-0"
+          />
+        </li>
+      ))
+    }
+  </ul>
+</Seccion>

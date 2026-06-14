@@ -1,0 +1,23 @@
+---
+/**
+ * Primitivo de sección — contenedor con ancho máximo y padding vertical.
+ * Réplica del ritmo vertical del WordPress origen (secciones anchas con
+ * contenido centrado a 1140px). No introduce estilos de marca; solo layout.
+ */
+interface Props {
+  /** id de ancla (p. ej. "Contacto" para el menú). */
+  id?: string;
+  /** Color de fondo de la sección (clase Tailwind). */
+  fondo?: string;
+  /** Clases extra para el <section>. */
+  class?: string;
+}
+
+const { id, fondo = '', class: clase = '' } = Astro.props;
+---
+
+<section id={id} class:list={['py-14 lg:py-20', fondo, clase]}>
+  <div class="mx-auto max-w-[1140px] px-4 sm:px-6 lg:px-8">
+    <slot />
+  </div>
+</section>

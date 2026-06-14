@@ -1,0 +1,66 @@
+---
+/**
+ * Sección "Facilidades de Pago para tus Tratamientos Dentales".
+ * Texto literal del WordPress origen, con bullets de financiación y badges.
+ */
+import Seccion from '../ui/Seccion.astro';
+
+const facilidades = [
+  'Financiación sin intereses de tu tratamiento hasta en 24 meses.',
+  'Pago por mensualidades tu tratamiento en pequeñas cuotas.',
+  'Domiciliación bancaria para mayor facilidad.',
+  'Pago en efectivo o con tarjeta de crédito.',
+];
+
+const badges = [
+  'PRIMERA CONSULTA GRATUITA',
+  'FINANCIACIÓN HASTA 24 MESES SIN INTERESES',
+  'PRESUPUESTO SIN COMPROMISO',
+  'FACILIDADES DE PAGO',
+];
+---
+
+<Seccion fondo="bg-primary-pale/20">
+  <p class="font-heading text-sm font-semibold uppercase tracking-wide text-primary-dark">
+    Clínica Dental Bances Sanz
+  </p>
+  <h2 class="mt-2 font-heading text-3xl font-bold text-ink sm:text-4xl">
+    Facilidades de Pago para tus Tratamientos Dentales
+  </h2>
+
+  <p class="mt-4 max-w-3xl leading-relaxed text-ink-soft">
+    En la Clínica Dental Bances Sanz de Santa Cruz de Tenerife ofrecemos a nuestros
+    pacientes las siguientes facilidades de pago para que tengan más fácil conseguir la
+    sonrisa que siempre han querido:
+  </p>
+
+  <ul class="mt-6 max-w-3xl space-y-3">
+    {
+      facilidades.map((f) => (
+        <li class="flex items-start gap-3 text-ink-soft">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mt-1 h-5 w-5 flex-shrink-0 text-primary-dark" aria-hidden="true">
+            <path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <span>{f}</span>
+        </li>
+      ))
+    }
+  </ul>
+
+  <p class="mt-6 max-w-3xl leading-relaxed text-ink-soft">
+    Consulta a nuestros dentistas en Santa Cruz de Tenerife las distintas opciones de
+    pago y financiación. Además, el presupuesto es gratuito. Puedes pedir tu presupuesto
+    gratuito solicitando una cita con nuestro equipo para que valore tu caso y elabore un
+    diagnóstico a partir del cual elaborar un presupuesto para que decidas sin compromiso.
+  </p>
+
+  <ul class="mt-8 flex flex-wrap gap-3">
+    {
+      badges.map((b) => (
+        <li class="rounded-full border-2 border-primary-dark px-4 py-2 font-heading text-xs font-bold uppercase tracking-wide text-primary-dark">
+          {b}
+        </li>
+      ))
+    }
+  </ul>
+</Seccion>

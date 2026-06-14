@@ -1,20 +1,35 @@
 ---
 /**
- * Página de inicio — skeleton mínimo.
- * El diseño 1:1 del WordPress (clinicadentalbances.com) llega en la fase migración.
+ * Página de inicio — réplica nativa 1:1 de https://clinicadentalbances.com/
+ * Cada sección es un componente en components/home/, en el orden del WP origen.
+ * Textos e imágenes literales del sitio actual.
  */
 import Layout from '../layouts/Layout.astro';
 import { siteConfig } from '../utils/siteConfig';
+
+import Hero from '../components/home/Hero.astro';
+import Features from '../components/home/Features.astro';
+import Intro from '../components/home/Intro.astro';
+import Servicios from '../components/home/Servicios.astro';
+import PrimeraVisita from '../components/home/PrimeraVisita.astro';
+import Pagos from '../components/home/Pagos.astro';
+import Seguros from '../components/home/Seguros.astro';
+import Colaboradores from '../components/home/Colaboradores.astro';
+import Opiniones from '../components/home/Opiniones.astro';
+import BlogDestacados from '../components/home/BlogDestacados.astro';
+import Contacto from '../components/home/Contacto.astro';
 ---
 
 <Layout title={siteConfig.title} description={siteConfig.description}>
-  <section class="mx-auto max-w-6xl px-4 py-16">
-    <h1 class="font-heading text-3xl font-bold text-primary">{siteConfig.marca}</h1>
-    <p class="mt-4 max-w-2xl text-secondary-light">
-      {siteConfig.description}
-    </p>
-    <p class="mt-8 text-sm text-secondary-light">
-      Sitio en construcción — migración WordPress → Astro en curso.
-    </p>
-  </section>
+  <Hero />
+  <Features />
+  <Intro />
+  <Servicios />
+  <PrimeraVisita />
+  <Pagos />
+  <Seguros />
+  <Colaboradores />
+  <Opiniones />
+  <BlogDestacados />
+  <Contacto />
 </Layout>

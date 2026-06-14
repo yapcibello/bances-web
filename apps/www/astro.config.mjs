@@ -1,10 +1,14 @@
 import { defineConfig } from 'astro/config';
+import mdx from '@astrojs/mdx';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://clinicadentalbances.com',
   integrations: [
+    // MDX primero — habilita la carga de los posts .mdx del blog.
+    // Convención Astro 5: mdx() antes de tailwind/sitemap.
+    mdx(),
     tailwind({
       // El base de estilos lo gobierna el global.css de la app.
       applyBaseStyles: false,

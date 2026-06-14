@@ -1,0 +1,32 @@
+---
+/**
+ * YouTubeEmbed — iframe de YouTube con carga diferida (lazy).
+ *
+ * Componente mínimo para incrustar vídeos de YouTube en los posts migrados
+ * desde WordPress. Usa `loading="lazy"` y el dominio `youtube-nocookie.com`
+ * para reducir el seguimiento. El `id` es el identificador del vídeo.
+ *
+ * Uso en MDX:
+ *   <YouTubeEmbed id="kdScyrintEI" />
+ */
+interface Props {
+  /** ID del vídeo de YouTube (p. ej. "kdScyrintEI"). */
+  id: string;
+  /** Título accesible del iframe (opcional). */
+  title?: string;
+}
+
+const { id, title = 'Vídeo de YouTube' } = Astro.props;
+const src = `https://www.youtube-nocookie.com/embed/${id}`;
+---
+
+<div class="youtube-embed" style="position:relative;width:100%;aspect-ratio:16/9;margin:1.5rem 0;">
+  <iframe
+    src={src}
+    title={title}
+    loading="lazy"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:0.5rem;"></iframe>
+</div>

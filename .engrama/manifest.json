@@ -9,6 +9,24 @@
       "memories": 4,
       "prompts": 0,
       "max_updated_at": "2026-06-12 19:36:30"
+    },
+    {
+      "id": "fdc1ad45",
+      "created_by": "yapci",
+      "created_at": "2026-06-14T08:23:13Z",
+      "sessions": 95,
+      "memories": 5,
+      "prompts": 0,
+      "max_updated_at": "2026-06-14 08:23:05"
+    },
+    {
+      "id": "558dd092",
+      "created_by": "yapci",
+      "created_at": "2026-06-14T08:23:37Z",
+      "sessions": 0,
+      "memories": 1,
+      "prompts": 0,
+      "max_updated_at": "2026-06-14 08:23:31"
     }
   ]
 }

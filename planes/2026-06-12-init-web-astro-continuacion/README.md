@@ -24,15 +24,35 @@
 
 ## Fases pendientes ⏳ (en orden)
 
-### 4. migracion — implementer (opus) · SIN gate
-La fase más larga. Réplica 1:1 de https://clinicadentalbances.com/:
-- Crawl completo del WP (sitemap + navegación): 6 páginas principales + 12 tratamientos + posts del blog en `/recomendaciones-y-consejos-dentales/`
-- Generar `docs/url-map.md` con TODAS las URLs del WP → **contrato de URLs inmutables: prohibido modificar slugs, prohibido 301; solo añadir** (confirmar con el operario ante cualquier duda)
-- Descargar imágenes originales a `apps/www/public/` preservando rutas `/wp-content/uploads/` (usar `decode-wp-paths.mjs` de logopedajessica si hay URLs encoded)
-- Extraer paleta y tipografías reales del CSS del WP → sustituir placeholder de `packages/config/tailwind.preset.cjs`
-- Textos e imágenes EXACTOS — sin reescrituras
-- Posts → colección `posts`; tratamientos → colección `tratamientos` (con `urlOriginal`)
-- Protocolo agentes-write-once (Read completo + Write 1-shot por archivo)
+### 4. migracion — implementer (opus) · SIN gate · EN CURSO
+La fase más larga. Réplica 1:1 NATIVA de https://clinicadentalbances.com/ (decisión del operario 2026-06-13: reconstrucción a componentes Astro+Tailwind, NO snapshot Elementor; migrar TODAS las taxonomías).
+
+**Hecho en esta sesión:**
+- ✅ Inventario completo de URLs en `docs/url-map.md` (82 del sitemap + `/odontologia-digital/` detectada fuera de sitemap) — contrato de URLs inmutables.
+- ✅ Mirror local del WP en `tmp/wp-crawl/clinicadentalbances.com` (61 HTML, 385 imágenes, 25 MB) + CSS Kit en `tmp/wp-crawl/css/`.
+- ✅ Paleta y tipografías REALES extraídas del Kit Elementor → `packages/config/tailwind.preset.cjs` (naranja #EF7723, ink #0D0D0D/#7A7A7A, Inter+Heebo). CORRIGE el dato erróneo previo (no era azul marino).
+- ✅ `siteConfig` con marca/eslogan/logos reales + navegación 1:1 con submenú de 12 tratamientos + CTA "Pedir Cita".
+- ✅ Logos reales copiados a `apps/www/public/wp-content/uploads/2025/05/`.
+- ✅ `content.config.ts` ampliado: posts con categories/tags/wpId + colecciones `categorias` y `tags`.
+- 🔄 Importación de los 46 posts + 15 categorías + 12 tags vía WP REST API (implementer en background, script estilo logopeda).
+
+**Hecho en la sesión del 2026-06-13/14:**
+- ✅ TODAS las URLs migradas: `build:www` genera 84 páginas, 0 faltan vs url-map. Posts, taxonomías, páginas estáticas, home, formulario PHP.
+- ✅ Hero de la home con VÍDEO de fondo (`Clinica-Dental-Bances-Sanz-...mp4`, 4,2 MB) + póster + fallback `prefers-reduced-motion` — réplica del Elementor background video de producción.
+- ✅ Pulido base de la home (tarjetas, fondos, degradado hero). Estructura responsive FIEL a producción en móvil/tablet/escritorio.
+- ⚠️ Auditores SEO/GEO/AAA lanzados pero cortados por techo de turnos — sin informe recuperable. Mejoras pendientes de aplicar con criterio.
+
+**Hecho antes (sesión bootstrap):**
+- ✅ Chrome nativo 1:1: `Header.astro`, `Navbar.astro` (menú + submenú accesible AAA, móvil con foco atrapado), `Footer.astro` (datos, legales, redes reales Facebook/Instagram). Integrados en `Layout.astro` con skip link.
+- ✅ Infra: `@astrojs/mdx` + fuentes Inter/Heebo self-hosted (Fontsource) en apps/www.
+- ✅ HOME nativa ensamblada: 11 componentes en `apps/www/src/components/home/` (Hero, Features, Intro, Servicios, PrimeraVisita, Pagos, Seguros, Colaboradores, Opiniones, BlogDestacados, Contacto) + `ui/` (Boton, Seccion). `index.astro` ensamblado. `build:www` exit 0.
+
+**Pendiente de la fase migración (el grueso restante):**
+- ⏳ **PULIDO VISUAL de la home** (prioritario): la home tiene estructura + textos 1:1 pero NO es pixel-perfect aún. Comparar `tmp/wp-crawl/home-astro.png` vs `home-full.png` y ajustar: hero (imagen `video_background.webp` no luce), grids de features/tarjetas, espaciado, colores de bloques. Iterar con dev server + capturas.
+- ⏳ Reconstruir 8 páginas restantes: quienes somos, tratamientos (índice), seguros dentales, instalaciones, 3 legales.
+- ⏳ Páginas de categoría/tratamiento (contenido de cada `/cirugia-oral/`, etc.) — reconstruir desde el HTML del mirror.
+- ⏳ Rutas dinámicas: `[categoria]/[slug].astro` (46 posts) + `[categoria]/index.astro` (listados de las 17 categorías) + `/tag/[slug]/` (12 tags) + índice blog `/recomendaciones-y-consejos-dentales/`. CUIDADO: colisión categoría vs página estática; `sin-categoria` (default WP) — verificar si debe generar URL.
+- ⏳ Backend formulario PHP+PHPMailer (`/api/contacto.php`) — el formulario visual ya está en Contacto.astro.
 - Artefacto: `artifacts/migration_report.md`
 
 ### 5. blueprint — implementer · SIN gate

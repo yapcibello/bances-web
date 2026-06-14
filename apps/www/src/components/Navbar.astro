@@ -1,29 +1,265 @@
 ---
 /**
- * Navbar — esqueleto AAA (navegación principal).
- * SOLO esqueleto: el diseño 1:1 del WordPress llega en la fase migración.
- * Los href replican los slugs reales del sitio actual (URLs inmutables).
+ * Navbar — navegación principal nativa 1:1 del menú Elementor.
+ *
+ * Desktop: menú horizontal. El item con `children` ("Tratamientos dentales")
+ * se muestra como dropdown accesible (botón con aria-expanded; abre con
+ * hover/foco, Enter/Espacio togglea, Escape cierra).
+ *
+ * Móvil: botón hamburguesa (aria-controls/aria-expanded) que despliega un
+ * panel con foco atrapado y cierre por Escape. Tap targets >= 44px.
+ *
+ * Los href replican los slugs reales del sitio (URLs inmutables).
  */
-import { mainNav } from '../utils/siteConfig';
+import { mainNav, ctaPedirCita } from '../utils/siteConfig';
 
 const pathname = Astro.url.pathname;
+
+// Marca activa el item cuyo href coincide con la ruta, o cuyo submenú la contiene.
+const isActive = (href: string) => pathname === href;
+const branchActive = (item: (typeof mainNav)[number]) =>
+  isActive(item.href) || (item.children?.some((c) => isActive(c.href)) ?? false);
 ---
 
-<nav aria-label="Navegación principal">
-  <ul class="flex flex-wrap gap-4">
-    {mainNav.map((item) => {
-      const isCurrent = pathname === item.href;
-      return (
-        <li>
-          <a
-            href={item.href}
-            class="inline-flex items-center min-h-[44px] px-2 text-secondary hover:text-primary"
-            aria-current={isCurrent ? 'page' : undefined}
-          >
-            {item.label}
-          </a>
-        </li>
-      );
-    })}
+<nav aria-label="Principal" class="flex items-center">
+  <!-- ===== Menú desktop ===== -->
+  <ul class="hidden items-center gap-1 lg:flex">
+    {
+      mainNav.map((item) =>
+        item.children ? (
+          <li class="group relative" data-dropdown>
+            <button
+              type="button"
+              class="inline-flex min-h-[44px] items-center gap-1 rounded-md px-3 text-sm font-medium text-ink transition-colors hover:text-primary aria-expanded:text-primary"
+              aria-expanded="false"
+              aria-haspopup="true"
+              data-dropdown-toggle
+            >
+              <span aria-current={branchActive(item) ? 'page' : undefined}>{item.label}</span>
+              <svg class="h-4 w-4 transition-transform group-hover:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.17l3.71-3.94a.75.75 0 1 1 1.08 1.04l-4.25 4.5a.75.75 0 0 1-1.08 0l-4.25-4.5a.75.75 0 0 1 .02-1.06Z" clip-rule="evenodd" />
+              </svg>
+            </button>
+            <ul
+              class="invisible absolute left-0 top-full z-50 mt-1 min-w-[16rem] origin-top rounded-xl border border-primary-pale/60 bg-white p-2 opacity-0 shadow-lg transition group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100"
+              data-dropdown-menu
+            >
+              {item.children.map((child) => (
+                <li>
+                  <a
+                    href={child.href}
+                    class="block rounded-md px-3 py-2 text-sm text-ink transition-colors hover:bg-primary-pale/40 hover:text-primary"
+                    aria-current={isActive(child.href) ? 'page' : undefined}
+                  >
+                    {child.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ) : (
+          <li>
+            <a
+              href={item.href}
+              class="inline-flex min-h-[44px] items-center rounded-md px-3 text-sm font-medium text-ink transition-colors hover:text-primary"
+              aria-current={isActive(item.href) ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        )
+      )
+    }
   </ul>
+
+  <!-- ===== Botón hamburguesa (móvil) ===== -->
+  <button
+    type="button"
+    id="menu-toggle"
+    class="inline-flex h-11 w-11 items-center justify-center rounded-md text-ink transition-colors hover:text-primary lg:hidden"
+    aria-controls="mobile-menu"
+    aria-expanded="false"
+    aria-label="Abrir menú de navegación"
+  >
+    <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  </button>
 </nav>
+
+<!-- ===== Panel de menú móvil ===== -->
+<div
+  id="mobile-menu"
+  class="fixed inset-0 z-50 hidden lg:hidden"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Menú de navegación"
+  hidden
+>
+  <div class="absolute inset-0 bg-ink/40" data-mobile-overlay></div>
+  <div class="absolute right-0 top-0 flex h-full w-full max-w-sm flex-col overflow-y-auto bg-white shadow-xl">
+    <div class="flex items-center justify-between border-b border-primary-pale/60 px-4 py-3">
+      <span class="font-heading text-base font-semibold text-ink">Menú</span>
+      <button
+        type="button"
+        id="menu-close"
+        class="inline-flex h-11 w-11 items-center justify-center rounded-md text-ink transition-colors hover:text-primary"
+        aria-label="Cerrar menú"
+      >
+        <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M18 6L6 18" />
+        </svg>
+      </button>
+    </div>
+
+    <ul class="flex-1 space-y-1 px-2 py-4">
+      {
+        mainNav.map((item) =>
+          item.children ? (
+            <li>
+              <details>
+                <summary class="flex min-h-[44px] cursor-pointer list-none items-center justify-between rounded-md px-3 py-2 text-base font-medium text-ink marker:hidden hover:bg-primary-pale/40">
+                  <span aria-current={branchActive(item) ? 'page' : undefined}>{item.label}</span>
+                  <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.17l3.71-3.94a.75.75 0 1 1 1.08 1.04l-4.25 4.5a.75.75 0 0 1-1.08 0l-4.25-4.5a.75.75 0 0 1 .02-1.06Z" clip-rule="evenodd" />
+                  </svg>
+                </summary>
+                <ul class="mt-1 space-y-1 pl-3">
+                  {item.children.map((child) => (
+                    <li>
+                      <a
+                        href={child.href}
+                        class="flex min-h-[44px] items-center rounded-md px-3 py-2 text-sm text-ink hover:bg-primary-pale/40 hover:text-primary"
+                        aria-current={isActive(child.href) ? 'page' : undefined}
+                      >
+                        {child.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            </li>
+          ) : (
+            <li>
+              <a
+                href={item.href}
+                class="flex min-h-[44px] items-center rounded-md px-3 py-2 text-base font-medium text-ink hover:bg-primary-pale/40 hover:text-primary"
+                aria-current={isActive(item.href) ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          )
+        )
+      }
+    </ul>
+
+    <div class="border-t border-primary-pale/60 p-4">
+      <a
+        href={ctaPedirCita.href}
+        class="flex min-h-[44px] items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
+      >
+        {ctaPedirCita.label}
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ===== Dropdown desktop accesible (Enter/Espacio togglea, Escape cierra) =====
+  document.querySelectorAll<HTMLElement>('[data-dropdown]').forEach((wrapper) => {
+    const toggle = wrapper.querySelector<HTMLButtonElement>('[data-dropdown-toggle]');
+    const menu = wrapper.querySelector<HTMLElement>('[data-dropdown-menu]');
+    if (!toggle || !menu) return;
+
+    const open = () => {
+      toggle.setAttribute('aria-expanded', 'true');
+      menu.classList.add('!visible', '!opacity-100');
+    };
+    const close = () => {
+      toggle.setAttribute('aria-expanded', 'false');
+      menu.classList.remove('!visible', '!opacity-100');
+    };
+
+    toggle.addEventListener('click', () => {
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      expanded ? close() : open();
+    });
+
+    toggle.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        close();
+        toggle.focus();
+      }
+    });
+
+    wrapper.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        close();
+        toggle.focus();
+      }
+    });
+
+    // Cierra al perder el foco fuera del grupo.
+    wrapper.addEventListener('focusout', (e) => {
+      if (!wrapper.contains(e.relatedTarget as Node)) close();
+    });
+  });
+
+  // ===== Menú móvil con foco atrapado =====
+  const toggleBtn = document.getElementById('menu-toggle');
+  const closeBtn = document.getElementById('menu-close');
+  const panel = document.getElementById('mobile-menu');
+  const overlay = panel?.querySelector<HTMLElement>('[data-mobile-overlay]');
+
+  if (toggleBtn && panel) {
+    const focusables = () =>
+      Array.from(
+        panel.querySelectorAll<HTMLElement>(
+          'a[href], button, summary, [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((el) => !el.hasAttribute('disabled'));
+
+    const openMenu = () => {
+      panel.hidden = false;
+      panel.classList.remove('hidden');
+      toggleBtn.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+      focusables()[0]?.focus();
+      document.addEventListener('keydown', onKeydown);
+    };
+
+    const closeMenu = () => {
+      panel.hidden = true;
+      panel.classList.add('hidden');
+      toggleBtn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', onKeydown);
+      toggleBtn.focus();
+    };
+
+    const onKeydown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        closeMenu();
+        return;
+      }
+      if (e.key === 'Tab') {
+        const items = focusables();
+        if (items.length === 0) return;
+        const first = items[0];
+        const last = items[items.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
+
+    toggleBtn.addEventListener('click', openMenu);
+    closeBtn?.addEventListener('click', closeMenu);
+    overlay?.addEventListener('click', closeMenu);
+  }
+</script>

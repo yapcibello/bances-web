@@ -6,3 +6,7 @@ dist/
 *.pem
 .astro/
 tmp/
+
+# Config local del endpoint PHP (secreto SMTP — nunca commitear)
+apps/www/public/api/config.local.php
+config.local.php

@@ -12,9 +12,12 @@
   },
   "dependencies": {
     "@astrojs/check": "catalog:",
+    "@astrojs/mdx": "^4.3.0",
     "@astrojs/sitemap": "catalog:",
     "@astrojs/tailwind": "catalog:",
     "@bances/config": "workspace:*",
+    "@fontsource/heebo": "^5.2.5",
+    "@fontsource/inter": "^5.2.5",
     "astro": "catalog:",
     "tailwindcss": "catalog:",
     "typescript": "catalog:"

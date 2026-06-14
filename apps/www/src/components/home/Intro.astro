@@ -1,0 +1,64 @@
+---
+/**
+ * Bloque intro "Sobre Nosotros / Clínica Dental Bances Sanz" con imagen y
+ * dos features adicionales (Atención Dental Completa, Facilidades De Pago).
+ * Textos literales del WordPress origen.
+ */
+import Seccion from '../ui/Seccion.astro';
+
+const imgIntro = '/wp-content/uploads/2025/05/clinica-dental-atencion-personalizada-en-tenerife.webp';
+
+const items = [
+  {
+    titulo: 'Atención Dental Completa',
+    texto:
+      'Ofrecemos una atención dental integral en cada etapa: desde el cuidado de los primeros dientes de leche con prevención, odontopediatría y ortopedia infantil, hasta los tratamientos regenerativos más avanzados, implantes, ortodoncia invisible y estética.',
+  },
+  {
+    titulo: 'Facilidades De Pago',
+    texto:
+      'En nuestra clínica te lo ponemos fácil. Ofrecemos múltiples opciones de pago y financiación sin intereses para tus tratamientos. Pide tu presupuesto gratuito y sin ningún compromiso.',
+  },
+];
+---
+
+<Seccion fondo="bg-white">
+  <div class="grid gap-10 lg:grid-cols-2 lg:items-center">
+    <div>
+      <p class="font-heading text-sm font-semibold uppercase tracking-wide text-primary-dark">
+        Sobre Nosotros
+      </p>
+      <h2 class="mt-2 font-heading text-3xl font-bold text-ink sm:text-4xl">
+        Clínica Dental Bances Sanz
+      </h2>
+      <p class="mt-4 leading-relaxed text-ink-soft">
+        Somos un equipo joven de dentistas en Santa Cruz de Tenerife que continúa un
+        legado familiar de más de 50 años. Combinamos la última tecnología y una
+        formación constante con un trato cercano para ofrecerte los mejores
+        tratamientos y cuidar tu salud.
+      </p>
+
+      <dl class="mt-8 space-y-6">
+        {
+          items.map((it) => (
+            <div>
+              <dt class="font-heading text-lg font-bold text-ink">{it.titulo}</dt>
+              <dd class="mt-1 text-sm leading-relaxed text-ink-soft">{it.texto}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+
+    <div>
+      <img
+        src={imgIntro}
+        alt="Equipo de la Clínica Dental Bances Sanz atendiendo en su clínica de Santa Cruz de Tenerife"
+        width="600"
+        height="600"
+        loading="lazy"
+        class="w-full rounded-xl object-cover shadow-lg"
+      />
+    </div>
+  </div>
+</Seccion>

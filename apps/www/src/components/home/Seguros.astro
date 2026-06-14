@@ -1,0 +1,90 @@
+---
+/**
+ * Sección "Seguros Dentales en Santa Cruz de Tenerife".
+ * Texto literal del WordPress + 3 cards de aseguradoras con sus imágenes.
+ */
+import Seccion from '../ui/Seccion.astro';
+
+const seguros = [
+  {
+    titulo: 'Seguro Dental Adeslas SegurCaixa',
+    texto:
+      'Con sus distintos tipos: adeslas segurcaixa dental familia, adeslas segurcaixa dental activa, adeslas segurcaixa óptima.',
+    cta: 'SEGURO ADESLAS',
+    img: '/wp-content/uploads/2025/06/seguro-dental-adeslas-tenerife.jpg',
+    alt: 'Seguro dental Adeslas SegurCaixa en la Clínica Dental Bances de Tenerife',
+  },
+  {
+    titulo: 'Seguro Dental Asisa',
+    texto:
+      'Asisa y asisa dental, dando tratamiento a todas sus coberturas sean con franquicia o no.',
+    cta: 'SEGURO ASISA',
+    img: '/wp-content/uploads/2025/06/seguro-dental-asisa-en-santa-cruz-de-tenerife.jpg',
+    alt: 'Seguro dental Asisa en Santa Cruz de Tenerife',
+  },
+  {
+    titulo: 'Seguro Dental Mapfre',
+    texto:
+      'Ofrecemos todas sus coberturas y tratamientos, asesorando el que mejor convenga al paciente.',
+    cta: 'SEGURO MAPFRE',
+    img: '/wp-content/uploads/2025/06/seguro-dental-mapfre-tenerife.jpg',
+    alt: 'Seguro dental Mapfre en Tenerife',
+  },
+];
+---
+
+<Seccion fondo="bg-white">
+  <p class="font-heading text-sm font-semibold uppercase tracking-wide text-primary-dark">
+    Pólizas Dentales
+  </p>
+  <h2 class="mt-2 font-heading text-3xl font-bold text-ink sm:text-4xl">
+    Seguros Dentales en Santa Cruz de Tenerife
+  </h2>
+
+  <div class="mt-4 max-w-4xl space-y-4 leading-relaxed text-ink-soft">
+    <p>
+      ¿Tienes un seguro dental y estás harto de que en cada revisión te vea un dentista
+      diferente? ¿Cansado de no saber la calidad de los materiales de tus tratamientos
+      dentales? En nuestra Clínica Dental en Santa Cruz de Tenerife colaboramos con las
+      principales compañías aseguradoras, y además ofrecemos el trato familiar y cercano
+      de una clínica de «toda la vida» con los mejores materiales, técnicas y equipo
+      humano. Nuestro doctor Fernando Bances, lleva al frente de la misma desde 2006 y su
+      padre, de 40 años atrás, dándole una continuidad de casi 60 años atendiendo en el
+      centro de Santa Cruz.
+    </p>
+    <p>
+      El equipo de la Clínica Dental Bances Sanz cubre las especialidades de
+      implantología, endodoncia, prótesis, estética, cirugía y odontopediatría. La
+      doctora Patricia Sanz desde el 2014 está al frente de la ortodoncia de niños,
+      adultos y ortodoncia invisible «Invisalign». Así que si lo que buscas es la mejor
+      atención odontológica y beneficiarte de los precios y tratamientos gratuitos que te
+      proporciona tu seguro dental, ¡NO DUDES EN ELEGIRNOS! Coge ya tu primera cita
+      gratuita llamando al número 922 243 555, por whatsapp al 636 001 450, y en nuestro
+      facebook e instagram.
+    </p>
+  </div>
+
+  <ul class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {
+      seguros.map((s) => (
+        <li class="flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white">
+          <img
+            src={s.img}
+            alt={s.alt}
+            width="300"
+            height="225"
+            loading="lazy"
+            class="h-44 w-full object-cover"
+          />
+          <div class="flex flex-1 flex-col p-6">
+            <h3 class="font-heading text-lg font-bold text-ink">{s.titulo}</h3>
+            <p class="mt-2 flex-1 text-sm leading-relaxed text-ink-soft">{s.texto}</p>
+            <span class="mt-4 inline-block font-heading text-sm font-bold uppercase tracking-wide text-primary-dark">
+              {s.cta}
+            </span>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</Seccion>

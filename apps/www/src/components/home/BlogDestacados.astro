@@ -1,0 +1,84 @@
+---
+/**
+ * Sección "Recomendaciones y consejos dentales" — últimos posts del blog.
+ * Datos reales desde la colección `posts`, ordenados por pubDate descendente.
+ * El enlace de cada card usa `urlOriginal` (slug 1:1 del WordPress).
+ */
+import { getCollection } from 'astro:content';
+import Seccion from '../ui/Seccion.astro';
+
+const todos = await getCollection('posts', ({ data }) => !data.draft);
+const posts = todos
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 4);
+
+const fmtFecha = (d: Date) =>
+  new Intl.DateTimeFormat('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }).format(d);
+
+const blogIndex = '/recomendaciones-y-consejos-dentales/';
+---
+
+<Seccion fondo="bg-gray-50">
+  <header class="mx-auto max-w-3xl text-center">
+    <p class="font-heading text-sm font-semibold uppercase tracking-wide text-primary-dark">
+      Nuestro Blog
+    </p>
+    <h2 class="mt-2 font-heading text-3xl font-bold text-ink sm:text-4xl">
+      Recomendaciones y consejos dentales
+    </h2>
+    <p class="mt-4 leading-relaxed text-ink-soft">
+      En esta sección obtendrás recomendaciones y consejos para cuidar tu dentadura y
+      obtener una sonrisa perfecta. Si tienes cualquier consulta, no dudes en contactar
+      con nosotros sin ningún compromiso a través de email, teléfono o en nuestro
+      formulario de contacto.
+    </p>
+  </header>
+
+  <ul class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    {
+      posts.map((post) => {
+        const href = post.data.urlOriginal ?? `${blogIndex}${post.id}/`;
+        return (
+          <li class="flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white">
+            {post.data.heroImage && (
+              <img
+                src={post.data.heroImage}
+                alt={post.data.title}
+                width="300"
+                height="185"
+                loading="lazy"
+                class="h-40 w-full object-cover"
+              />
+            )}
+            <div class="flex flex-1 flex-col p-5">
+              <time datetime={post.data.pubDate.toISOString()} class="text-xs text-ink-soft">
+                {fmtFecha(post.data.pubDate)}
+              </time>
+              <h3 class="mt-2 font-heading text-base font-bold leading-snug text-ink">
+                <a
+                  href={href}
+                  class="hover:text-primary-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-dark"
+                >
+                  {post.data.title}
+                </a>
+              </h3>
+              <p class="mt-2 flex-1 text-sm leading-relaxed text-ink-soft line-clamp-3">
+                {post.data.description}
+              </p>
+              <a
+                href={href}
+                class="mt-4 inline-flex items-center font-heading text-sm font-semibold text-primary-dark hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-dark"
+              >
+                Leer más
+                <span class="sr-only"> sobre {post.data.title}</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-1 h-4 w-4" aria-hidden="true">
+                  <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </a>
+            </div>
+          </li>
+        );
+      })
+    }
+  </ul>
+</Seccion>

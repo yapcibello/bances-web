@@ -1,0 +1,65 @@
+---
+/**
+ * Card de entrada de blog — reutilizable en índice del blog y en listados de
+ * categoría/tag. El enlace usa SIEMPRE `urlOriginal` (slug 1:1 del WordPress),
+ * que es la fuente de verdad de la URL inmutable del post.
+ */
+interface Props {
+  /** Título de la entrada. */
+  title: string;
+  /** Descripción / extracto. */
+  description: string;
+  /** URL destino (urlOriginal del post). */
+  href: string;
+  /** Fecha de publicación. */
+  pubDate: Date;
+  /** Imagen hero (opcional). */
+  heroImage?: string;
+}
+
+const { title, description, href, pubDate, heroImage } = Astro.props;
+
+const fmtFecha = (d: Date) =>
+  new Intl.DateTimeFormat('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }).format(d);
+---
+
+<li class="flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white">
+  {heroImage && (
+    <a href={href} class="block" tabindex="-1" aria-hidden="true">
+      <img
+        src={heroImage}
+        alt={title}
+        width="400"
+        height="240"
+        loading="lazy"
+        class="h-48 w-full object-cover"
+      />
+    </a>
+  )}
+  <div class="flex flex-1 flex-col p-5">
+    <time datetime={pubDate.toISOString()} class="text-xs text-ink-soft">
+      {fmtFecha(pubDate)}
+    </time>
+    <h3 class="mt-2 font-heading text-lg font-bold leading-snug text-ink">
+      <a
+        href={href}
+        class="hover:text-primary-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-dark"
+      >
+        {title}
+      </a>
+    </h3>
+    <p class="mt-2 flex-1 text-sm leading-relaxed text-ink-soft line-clamp-3">
+      {description}
+    </p>
+    <a
+      href={href}
+      class="mt-4 inline-flex items-center font-heading text-sm font-semibold text-primary-dark hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-dark"
+    >
+      Leer más
+      <span class="sr-only"> sobre {title}</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-1 h-4 w-4" aria-hidden="true">
+        <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </a>
+  </div>
+</li>

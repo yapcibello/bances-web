@@ -1,0 +1,26 @@
+---
+/**
+ * Política de Privacidad — réplica nativa 1:1 del WordPress origen.
+ * El texto legal se importa literal desde src/data/legal/politica-de-privacidad.html
+ * (extraído del mirror) y se renderiza con prosa accesible. No se modifica
+ * ni resume el contenido legal.
+ */
+import Layout from '../../layouts/Layout.astro';
+import contenido from '../../data/legal/politica-de-privacidad.html?raw';
+
+const title = 'Política de privacidad';
+const description =
+  'Política de privacidad de Clínica Dental Bances: responsables del tratamiento, datos que tratamos, finalidades, derechos del usuario y cómo ejercerlos.';
+---
+
+<Layout title={title} description={description}>
+  <section class="py-14 lg:py-20">
+    <div class="mx-auto max-w-[860px] px-4 sm:px-6 lg:px-8">
+      <h1 class="font-heading text-3xl font-bold text-ink sm:text-4xl">{title}</h1>
+      <div
+        class="prose prose-neutral mt-8 max-w-none prose-headings:font-heading prose-headings:text-ink prose-p:text-ink-soft prose-li:text-ink-soft prose-a:text-primary-dark hover:prose-a:text-primary"
+        set:html={contenido}
+      />
+    </div>
+  </section>
+</Layout>

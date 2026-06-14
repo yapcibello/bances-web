@@ -1,0 +1,82 @@
+---
+/**
+ * Listado de etiqueta del blog — URL `/tag/{tag}/`.
+ * Genera una página por cada tag de la colección `tags` (12), preservando sus
+ * URLs inmutables aunque alguno no tenga posts.
+ *
+ * Los posts del tag se determinan por el array `tags` del frontmatter del post.
+ */
+import { getCollection } from 'astro:content';
+import Layout from '../../../layouts/Layout.astro';
+import Seccion from '../../../components/ui/Seccion.astro';
+import PostCard from '../../../components/blog/PostCard.astro';
+import { hrefPost, ordenarPorFecha } from '../../../utils/blog';
+
+export async function getStaticPaths() {
+  const [tags, postsAll] = await Promise.all([
+    getCollection('tags'),
+    getCollection('posts', ({ data }) => !data.draft),
+  ]);
+
+  return tags.map((tag) => {
+    const posts = ordenarPorFecha(
+      postsAll.filter((post) => post.data.tags.includes(tag.data.slug)),
+    );
+    return {
+      params: { tag: tag.data.slug },
+      props: { tag: tag.data, posts },
+    };
+  });
+}
+
+const { tag, posts } = Astro.props;
+
+const description =
+  tag.lead ?? `Artículos etiquetados con ${tag.nombre} en el blog de Clínica Dental Bances.`;
+---
+
+<Layout title={tag.nombre} description={description}>
+  <Seccion>
+    <header class="mx-auto max-w-3xl text-center">
+      <p class="font-heading text-sm font-semibold uppercase tracking-wide text-primary-dark">
+        Etiqueta
+      </p>
+      <h1 class="mt-2 font-heading text-3xl font-bold text-ink sm:text-4xl">
+        {tag.nombre}
+      </h1>
+      {tag.lead && <p class="mt-4 leading-relaxed text-ink-soft">{tag.lead}</p>}
+    </header>
+
+    {
+      posts.length > 0 ? (
+        <ul class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post) => (
+            <PostCard
+              title={post.data.title}
+              description={post.data.description}
+              href={hrefPost(post)}
+              pubDate={post.data.pubDate}
+              heroImage={post.data.heroImage}
+            />
+          ))}
+        </ul>
+      ) : (
+        <p class="mt-12 text-center text-ink-soft">
+          Todavía no hay artículos con esta etiqueta.
+        </p>
+      )
+    }
+
+    <p class="mt-12 text-center">
+      <a
+        href="/recomendaciones-y-consejos-dentales/"
+        class="inline-flex items-center font-heading text-sm font-semibold text-primary-dark hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-dark"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-1 h-4 w-4" aria-hidden="true">
+          <path d="M19 12H5M11 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        Ver todo el blog
+      </a>
+    </p>
+  </Seccion>
+</Layout>

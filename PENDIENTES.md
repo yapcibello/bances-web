@@ -2,8 +2,9 @@
 
 ## Prioritario
 
-- [ ] Continuar workflow init-web-astro en fase 4 (migración) — plan completo en `planes/2026-06-12-init-web-astro-continuacion/README.md`, run `init-web-astro-20260612-194329`
-- [ ] Fase migración: crawl del WP, `docs/url-map.md`, descarga de imágenes, extracción de paleta real y réplica 1:1 de páginas/posts
+- [ ] **Pulido visual fino**: la home ya es responsive-fiel a producción (móvil/tablet/escritorio) con hero en vídeo; faltan espaciados/colores exactos de algunos bloques. Pulir también las 8 páginas estáticas y los listados de blog comparando con producción
+- [ ] **Mejoras SEO/GEO/AAA** (auditorías previas se cortaron): robots.txt, llms.txt, schema LocalBusiness/Dentist + BreadcrumbList + Article, titles/descriptions por página, página `/accesibilidad/`, verificación de contrastes
+- [ ] Continuar workflow init-web-astro: fases gtm/deploy baselines → verificación → plan-f0. Run `init-web-astro-20260612-194329`
 
 ## Mejoras
 

@@ -13,6 +13,12 @@
     "verify:html-diff": "echo 'TODO: verify HTML diff — fase migración'",
     "verify:sitemap-images": "echo 'TODO: verify sitemap images — fase migración'",
     "check": "pnpm --filter @bances/www exec astro check",
+    "import:blog": "node scripts/import-blog-wp.mjs",
     "test": "echo 'TODO: tests — sin suite todavía'"
+  },
+  "devDependencies": {
+    "cheerio": "^1.0.0",
+    "turndown": "^7.2.0",
+    "turndown-plugin-gfm": "^1.0.2"
   }
 }

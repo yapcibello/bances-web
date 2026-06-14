@@ -1,0 +1,95 @@
+---
+/**
+ * Seguros Dentales en Santa Cruz de Tenerife — réplica nativa 1:1 del origen.
+ * URL inmutable: /seguros-dentales/
+ * Textos e imágenes literales del mirror; enlaces a las páginas de cada
+ * aseguradora (URLs inmutables del WordPress origen).
+ */
+import Layout from '../../layouts/Layout.astro';
+import Seccion from '../../components/ui/Seccion.astro';
+import Compania from '../../components/paginas/Seguros_Compania.astro';
+
+const title = 'Seguros Dentales en Santa Cruz de Tenerife';
+const description =
+  'Seguros Dentales en Santa Cruz de Tenerife - Dentista en Tenerife - Clínica Dental Bances Sanz';
+
+const companias = [
+  {
+    titulo: 'Seguro Dental Adeslas SegurCaixa',
+    texto:
+      'Con sus distintos tipos: adeslas segurcaixa dental familia, adeslas segurcaixa dental activa, adeslas segurcaixa óptima.',
+    imagen: '/wp-content/uploads/2025/06/seguro-dental-adeslas-tenerife-300x225.jpg',
+    alt: 'Seguro dental Adeslas SegurCaixa en Tenerife',
+    href: '/seguro-dental-adeslas-segurcaixa/',
+    boton: 'SEGURO ADESLAS',
+  },
+  {
+    titulo: 'Seguro Dental Asisa',
+    texto:
+      'Asisa y asisa dental, dando tratamiento a todas sus coberturas sean con franquicia o no.',
+    imagen: '/wp-content/uploads/2025/06/seguro-dental-asisa-en-santa-cruz-de-tenerife-300x225.jpg',
+    alt: 'Seguro dental Asisa en Santa Cruz de Tenerife',
+    href: '/seguro-dental-asisa/',
+    boton: 'SEGURO ASISA',
+  },
+  {
+    titulo: 'Seguro Dental Mapfre',
+    texto:
+      'Ofrecemos todas sus coberturas y tratamientos, asesorando el que mejor convenga al paciente.',
+    imagen: '/wp-content/uploads/2025/06/seguro-dental-mapfre-tenerife-300x225.jpg',
+    alt: 'Seguro dental Mapfre en Tenerife',
+    href: '/seguro-dental-mapfre/',
+    boton: 'SEGURO MAPFRE',
+  },
+];
+---
+
+<Layout title={title} description={description}>
+  <Seccion fondo="bg-white">
+    <header class="mx-auto max-w-3xl text-center">
+      <h1 class="font-heading text-3xl font-bold text-ink sm:text-4xl">
+        Seguros Dentales en Santa Cruz de Tenerife
+      </h1>
+      <p class="mt-6 leading-relaxed text-ink-soft">
+        Ofrecemos nuestros servicios atendiendo en nuestra Clínica Dental en
+        Santa Cruz de Tenerife, los principales y más potentes seguros que
+        operan en las islas.
+      </p>
+      <p class="mt-4 leading-relaxed text-ink-soft">
+        Destacamos que ofrecemos un trato de máxima calidad a nuestros
+        pacientes, ofreciendo las mejores soluciones, y aconsejando de manera
+        individualizada cada caso, para poder acogerse a las principales
+        ventajas de su seguro.
+      </p>
+      <p class="mt-4 leading-relaxed text-ink-soft">
+        Nuestro personal conoce cada uno de los seguros, pudiendo dar un trato
+        de calidad y efectivo.
+      </p>
+      <p class="mt-4 leading-relaxed text-ink-soft">
+        Entre otros servicios con prestaciones gratuitas se encuentran las
+        revisiones, limpiezas, consultas, radiografías o extracciones, entre
+        otras.
+      </p>
+    </header>
+  </Seccion>
+
+  <Seccion fondo="bg-neutral-50">
+    <header class="mx-auto max-w-3xl text-center">
+      <h2 class="font-heading text-2xl font-bold text-ink sm:text-3xl">
+        Compañias Con Las Que Trabajamos
+      </h2>
+    </header>
+    <div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      {companias.map((c) => (
+        <Compania
+          titulo={c.titulo}
+          texto={c.texto}
+          imagen={c.imagen}
+          alt={c.alt}
+          href={c.href}
+          boton={c.boton}
+        />
+      ))}
+    </div>
+  </Seccion>
+</Layout>
