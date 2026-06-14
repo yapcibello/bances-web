@@ -15,6 +15,8 @@ import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Seccion from '../../components/ui/Seccion.astro';
 import PostCard from '../../components/blog/PostCard.astro';
+import Faq from '../../components/geo/Faq.astro';
+import { faqsTratamientos } from '../../data/faqsTratamientos';
 import {
   parsearPermalink,
   hrefPost,
@@ -47,6 +49,10 @@ const { categoria, posts } = Astro.props;
 
 const description =
   categoria.lead ?? `Artículos de la categoría ${categoria.nombre} en el blog de Clínica Dental Bances.`;
+
+// FAQ específicas del tratamiento (si la categoría es un tratamiento con FAQ
+// reales extraídas del sitio origen). Vacío para categorías sin FAQ.
+const faqs = faqsTratamientos[categoria.slug] ?? [];
 ---
 
 <Layout title={categoria.nombre} description={description}>
@@ -95,4 +101,15 @@ const description =
       </a>
     </p>
   </Seccion>
+
+  {
+    faqs.length > 0 && (
+      <Seccion fondo="bg-neutral-50">
+        <Faq
+          preguntas={faqs}
+          titulo={`Preguntas frecuentes sobre ${categoria.nombre}`}
+        />
+      </Seccion>
+    )
+  }
 </Layout>

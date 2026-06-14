@@ -25,7 +25,7 @@ Migración funcionalmente completa: 84 URLs migradas 1:1, build verde (85 págin
 ## F0.3 — Decisiones de contenido (operario)
 
 - [x] **Imágenes rotas en posts antiguos (26)** (resuelto 2026-06-14): repuntadas a un placeholder de marca (`placeholder-bances.webp`). Si prefieres las imágenes reales originales, hay que re-subirlas al hosting y re-apuntar los MDX (dan 404 también en producción).
-- [x] **Bloques GEO** (resuelto 2026-06-14): FAQ (7 Q&A reales + FAQPage JSON-LD) wireada en la home; `BloqueCita` con el horario real (L/X/J 9-20, M 11-20, V 9-15) en "Quiénes Somos"; `openingHoursSpecification` añadido al schema `Dentist`. **Confirmar que el horario sigue vigente** y, si quieres, aportar más FAQ específicas por tratamiento.
+- [x] **Bloques GEO** (resuelto 2026-06-14): FAQ general (7 Q&A) en la home + 32 FAQ reales por tratamiento (10 tratamientos) extraídas de producción + `BloqueCita` con horario real en "Quiénes Somos"; `openingHoursSpecification` en el schema `Dentist`. Todas las páginas de tratamiento emiten FAQPage. **Confirmar que el horario y las respuestas siguen vigentes** (el contenido es de la web actual).
 - [ ] **Pulido visual fino restante** (opcional): matices de la home (saturación del bloque Seguros, sección "Opiniones"). Las 8 estáticas ya se verificaron sólidas (2026-06-14).
 
 ## F0.4 — Corte DNS y publicación

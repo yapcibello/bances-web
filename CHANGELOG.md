@@ -1,5 +1,10 @@
 # Changelog — bances-web
 
+## [2026-06-14] — FAQ por tratamiento (32 Q&A reales extraídas de producción)
+
+- feat(geo): 32 preguntas frecuentes REALES extraídas del contenido de las páginas de tratamiento de producción (mirror) y wireadas por tratamiento en `[categoria]/index.astro` — 10 tratamientos (blanqueamiento, cirugía oral, endodoncias, implantes, odontología conservadora, odontopediatría, ortodoncia, odontología digital, periodoncia, radiología 3D)
+- feat(geo): cada página de tratamiento emite ahora su propio JSON-LD FAQPage; datos en `apps/www/src/data/faqsTratamientos.ts` (curados: sin excerpts de blog, recorte a frases completas, limpieza de espaciado)
+
 ## [2026-06-14] — Imágenes de relleno + wiring GEO (FAQ y horario reales)
 
 - fix(blog): 26 imágenes de cuerpo rotas (404 también en producción) repuntadas a un placeholder de marca (`placeholder-bances.webp`, logo sobre fondo pale) en 8 posts — ya no se ven rotas
