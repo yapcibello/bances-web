@@ -51,6 +51,17 @@ export const siteConfig = {
     latitude: 28.4636,
     longitude: -16.2518,
   },
+
+  // Horario de atención REAL (extraído del sitio origen, 2026-06-14).
+  // `days` usa nombres schema.org para el JSON-LD openingHoursSpecification.
+  openingHours: [
+    { days: ['Monday', 'Wednesday', 'Thursday'], opens: '09:00', closes: '20:00' },
+    { days: ['Tuesday'], opens: '11:00', closes: '20:00' },
+    { days: ['Friday'], opens: '09:00', closes: '15:00' },
+  ],
+  // Versión legible para personas (sábado y domingo cerrado).
+  horarioTexto:
+    'Lunes, miércoles y jueves de 9:00 a 20:00 · Martes de 11:00 a 20:00 · Viernes de 9:00 a 15:00 · Sábado y domingo cerrado',
 } as const;
 
 export type SiteConfig = typeof siteConfig;

@@ -79,8 +79,14 @@ const redesSociales = [
 
 // JSON-LD Dentist (LocalBusiness) con datos reales de Clínica Dental Bances.
 // Solo se incluyen campos con datos verificados en siteConfig / Footer.
-// Omitidos por falta de dato real: openingHoursSpecification (no hay horarios),
-// priceRange (no se conoce), aggregateRating/review (sin datos de reseñas).
+// Omitidos por falta de dato real: priceRange (no se conoce),
+// aggregateRating/review (sin datos de reseñas).
+const openingHoursSpecification = siteConfig.openingHours.map((h) => ({
+  '@type': 'OpeningHoursSpecification',
+  dayOfWeek: h.days,
+  opens: h.opens,
+  closes: h.closes,
+}));
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Dentist',
@@ -109,6 +115,7 @@ const organizationSchema = {
     '@type': 'City',
     name: 'Santa Cruz de Tenerife',
   },
+  openingHoursSpecification,
   sameAs: redesSociales,
 };
 

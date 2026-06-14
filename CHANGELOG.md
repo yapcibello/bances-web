@@ -1,5 +1,12 @@
 # Changelog — bances-web
 
+## [2026-06-14] — Imágenes de relleno + wiring GEO (FAQ y horario reales)
+
+- fix(blog): 26 imágenes de cuerpo rotas (404 también en producción) repuntadas a un placeholder de marca (`placeholder-bances.webp`, logo sobre fondo pale) en 8 posts — ya no se ven rotas
+- feat(geo): sección "Preguntas frecuentes" en la home (antes de Contacto) con 7 Q&A basadas en datos REALES del sitio (horario, ubicación, legado desde 1970, seguros, financiación, tratamientos, cómo pedir cita) + JSON-LD FAQPage
+- feat(geo): `BloqueCita` wireado en "Quiénes Somos" con el horario real de atención (NAP + horario citable)
+- feat(seo): horario real (L/X/J 9-20, M 11-20, V 9-15) añadido a `siteConfig.openingHours` y al JSON-LD `Dentist` (`openingHoursSpecification`) — antes omitido por falta de dato
+
 ## [2026-06-14] — Cierre fases 5-14 init-web-astro: pulido home + SEO/GEO/AAA + deploy
 
 - feat(home): hero rehecho 1:1 con producción — vídeo a sangre completa, eslogan abajo-izquierda y barra de cita horizontal debajo (Nombre, Email, Teléfono, Tratamiento) en vez del formulario flotante previo

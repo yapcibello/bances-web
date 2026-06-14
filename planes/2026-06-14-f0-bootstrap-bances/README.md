@@ -24,9 +24,9 @@ Migración funcionalmente completa: 84 URLs migradas 1:1, build verde (85 págin
 
 ## F0.3 — Decisiones de contenido (operario)
 
-- [ ] **Imágenes rotas en posts antiguos (26)**: posts de 2016-2020 referencian imágenes que dan 404 también en producción. Opciones: (a) dejarlas 1:1 con producción; (b) re-subir las imágenes al hosting; (c) editar los MDX para quitarlas. Requiere decisión por ser contenido migrado. Listado en `verification_report.md`.
-- [ ] **Bloques GEO**: aportar preguntas frecuentes reales (para `Faq.astro`) y confirmar horario de la clínica (para `BloqueCita.astro` y `openingHoursSpecification` del schema). Sin estos datos no se wirean (no se inventan).
-- [ ] **Pulido visual fino restante**: validar matices de la home (saturación del bloque Seguros, sección "Opiniones") y revisar página a página las 8 estáticas contra producción.
+- [x] **Imágenes rotas en posts antiguos (26)** (resuelto 2026-06-14): repuntadas a un placeholder de marca (`placeholder-bances.webp`). Si prefieres las imágenes reales originales, hay que re-subirlas al hosting y re-apuntar los MDX (dan 404 también en producción).
+- [x] **Bloques GEO** (resuelto 2026-06-14): FAQ (7 Q&A reales + FAQPage JSON-LD) wireada en la home; `BloqueCita` con el horario real (L/X/J 9-20, M 11-20, V 9-15) en "Quiénes Somos"; `openingHoursSpecification` añadido al schema `Dentist`. **Confirmar que el horario sigue vigente** y, si quieres, aportar más FAQ específicas por tratamiento.
+- [ ] **Pulido visual fino restante** (opcional): matices de la home (saturación del bloque Seguros, sección "Opiniones"). Las 8 estáticas ya se verificaron sólidas (2026-06-14).
 
 ## F0.4 — Corte DNS y publicación
 

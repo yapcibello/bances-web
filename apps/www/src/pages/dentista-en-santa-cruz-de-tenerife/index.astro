@@ -9,6 +9,8 @@ import Layout from '../../layouts/Layout.astro';
 import Seccion from '../../components/ui/Seccion.astro';
 import Boton from '../../components/ui/Boton.astro';
 import MiembroEquipo from '../../components/paginas/QuienesSomos_MiembroEquipo.astro';
+import BloqueCita from '../../components/geo/BloqueCita.astro';
+import { siteConfig } from '../../utils/siteConfig';
 
 const title = 'Dentista en Santa Cruz de Tenerife';
 const description =
@@ -182,5 +184,13 @@ const equipo = [
         />
       ))}
     </div>
+  </Seccion>
+
+  <Seccion fondo="bg-white">
+    <BloqueCita
+      titulo="Dónde estamos y horario de atención"
+      horario={siteConfig.horarioTexto}
+      class="mx-auto max-w-3xl"
+    />
   </Seccion>
 </Layout>

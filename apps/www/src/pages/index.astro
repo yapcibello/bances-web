@@ -18,6 +18,48 @@ import Colaboradores from '../components/home/Colaboradores.astro';
 import Opiniones from '../components/home/Opiniones.astro';
 import BlogDestacados from '../components/home/BlogDestacados.astro';
 import Contacto from '../components/home/Contacto.astro';
+import Seccion from '../components/ui/Seccion.astro';
+import Faq from '../components/geo/Faq.astro';
+
+// Preguntas frecuentes — reformulación de datos REALES ya publicados en el
+// sitio (horario, ubicación, legado desde 1970, seguros, financiación,
+// tratamientos y vías de contacto). No se inventan datos. Emite FAQPage JSON-LD
+// para SEO/GEO (citabilidad por buscadores y motores generativos).
+const preguntas = [
+  {
+    pregunta: '¿Desde cuándo trabaja la Clínica Dental Bances Sanz?',
+    respuesta:
+      'La Clínica Dental Bances Sanz cuida sonrisas en Santa Cruz de Tenerife desde 1970, continuando un legado familiar de más de 50 años de dedicación a la odontología.',
+  },
+  {
+    pregunta: '¿Cuál es el horario de atención?',
+    respuesta:
+      'Lunes, miércoles y jueves de 9:00 a 20:00; martes de 11:00 a 20:00; y viernes de 9:00 a 15:00. Sábados y domingos permanece cerrada.',
+  },
+  {
+    pregunta: '¿Dónde está la clínica?',
+    respuesta: `Estamos en ${siteConfig.direccion.street}, ${siteConfig.direccion.postalCode} ${siteConfig.direccion.city} (${siteConfig.direccion.region}).`,
+  },
+  {
+    pregunta: '¿Qué tratamientos dentales ofrecéis?',
+    respuesta:
+      'Ofrecemos implantes dentales, ortodoncia (incluida la ortodoncia invisible Invisalign), blanqueamiento dental, endodoncias, cirugía oral, odontología conservadora, odontopediatría, periodoncia, prótesis dentales, odontología digital y radiología dental 3D.',
+  },
+  {
+    pregunta: '¿Trabajáis con seguros dentales?',
+    respuesta:
+      'Sí. Trabajamos con seguros dentales como Adeslas/SegurCaixa, Asisa y Mapfre.',
+  },
+  {
+    pregunta: '¿Ofrecéis facilidades de pago o financiación?',
+    respuesta:
+      'Sí. Ofrecemos múltiples opciones de pago y financiación sin intereses para tus tratamientos. El presupuesto es gratuito y sin compromiso.',
+  },
+  {
+    pregunta: '¿Cómo puedo pedir cita?',
+    respuesta: `Puedes pedir cita rellenando el formulario de esta web, llamando al ${siteConfig.telefonos[0].numero} o al ${siteConfig.telefonos[1].numero}, o escribiendo a ${siteConfig.email}.`,
+  },
+];
 ---
 
 <Layout title={siteConfig.title} description={siteConfig.description}>
@@ -31,5 +73,8 @@ import Contacto from '../components/home/Contacto.astro';
   <Colaboradores />
   <Opiniones />
   <BlogDestacados />
+  <Seccion fondo="bg-neutral-50">
+    <Faq preguntas={preguntas} titulo="Preguntas frecuentes" />
+  </Seccion>
   <Contacto />
 </Layout>
