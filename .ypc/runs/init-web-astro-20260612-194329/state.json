@@ -1,11 +1,11 @@
 {
   "run_id": "init-web-astro-20260612-194329",
   "workflow": "init-web-astro",
-  "status": "running",
+  "status": "completed",
   "started_at": "2026-06-12T19:43:29+01:00",
   "input": "Migración WordPress → Astro de https://clinicadentalbances.com/ (Clínica Dental Bances). Requisitos del operario: (1) la web debe verse EXACTAMENTE igual que la actual — sin cambios de textos ni de imágenes, fidelidad visual 1:1; (2) aplicar lo mejor posible SEO, GEO (citabilidad LLMs), y accesibilidad AAA; (3) repositorio GitHub destino: https://github.com/yapcibello/bances-web; (4) reutilizar todo el conocimiento de los proyectos previos SMedialab: logopedajessica-web (referencia base), smedialab-web, villena-web, vitali-web. Directorio de trabajo: /home/yapci/Programacion/bances-web (aún no es repo git).",
   "base_sha": "",
-  "current_phase": "blueprint",
+  "current_phase": "",
   "phases": {
     "preflight": {
       "status": "completed",
@@ -30,7 +30,55 @@
       "started_at": "2026-06-13T08:23:48+01:00",
       "completed_at": "2026-06-13T10:11:04+01:00",
       "artifact": ".ypc/runs/init-web-astro-20260612-194329/artifacts/migration_report.md"
+    },
+    "blueprint": {
+      "status": "completed",
+      "completed_at": "2026-06-14T10:32:52+01:00",
+      "artifact": "proyecto/arquitectura.md"
+    },
+    "skills": {
+      "status": "completed",
+      "completed_at": "2026-06-14T10:33:00+01:00"
+    },
+    "astro-baseline": {
+      "status": "completed",
+      "completed_at": "2026-06-14T10:33:08+01:00"
+    },
+    "seo-baseline": {
+      "status": "completed",
+      "completed_at": "2026-06-14T10:33:13+01:00",
+      "artifact": "apps/www/src/layouts/Layout.astro"
+    },
+    "geo-baseline": {
+      "status": "completed",
+      "completed_at": "2026-06-14T10:33:23+01:00",
+      "artifact": "apps/www/public/llms.txt"
+    },
+    "a11y-baseline": {
+      "status": "completed",
+      "completed_at": "2026-06-14T10:33:31+01:00",
+      "artifact": "apps/www/src/pages/accesibilidad/index.astro"
+    },
+    "gtm-baseline": {
+      "status": "completed",
+      "completed_at": "2026-06-14T10:33:37+01:00"
+    },
+    "deploy-baseline": {
+      "status": "completed",
+      "completed_at": "2026-06-14T10:33:41+01:00",
+      "artifact": "scripts/deploy-ftp.sh"
+    },
+    "verificacion": {
+      "status": "completed",
+      "completed_at": "2026-06-14T10:33:45+01:00",
+      "artifact": ".ypc/runs/init-web-astro-20260612-194329/artifacts/verification_report.md"
+    },
+    "plan-f0": {
+      "status": "completed",
+      "completed_at": "2026-06-14T10:33:52+01:00",
+      "artifact": "planes/2026-06-14-f0-bootstrap-bances/README.md"
     }
   },
-  "gate_phase": "estructura"
+  "gate_phase": "plan-f0",
+  "completed_at": "2026-06-14T10:33:56+01:00"
 }
