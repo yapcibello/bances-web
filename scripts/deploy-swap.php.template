@@ -1,0 +1,196 @@
+<?php
+// Deploy con manifest cleanup endurecido — bances-web (sitio estático Astro en Hestia).
+// Portado de vitali-web / smedialab-web. Generado por scripts/deploy-ftp.sh: reemplaza los
+// placeholders (TOKEN/ZIP/SMOKE/BASE/PRESERVE) y se sube como deploy-<rand>.php a la RAÍZ
+// del docroot (no en api/), por eso $pubDir = realpath(__DIR__) directamente.
+//
+// Por qué manifest cleanup y no swap atómico: el rename de public_html falla en Hestia con
+// el docroot configurado (verificado en los proyectos hermanos). extractTo() + diff de
+// manifest pre/post + borrado explícito de huérfanos. No atómico (ventana ~5-10s), pero
+// resuelve el objetivo (cero huérfanos acumulados) sin downtime estricto.
+//
+// Endurecimiento: nombre random + token 32 hex (hash_equals timing-safe) + auto-delete del
+// propio PHP + fallback FTP rm. El/los sitemap(s) se extraen en una 2ª fase (evita que un
+// crawler lea un sitemap nuevo apuntando a URLs aún no extraídas).
+//
+// Garantías mantenidas:
+//   - api/config.local.php (contraseña SMTP) protegido vía PRESERVE_LIST: jamás se borra
+//   - Cero huérfanos acumulados (cleanup explícito tras cada deploy)
+//   - Smoke test loopback post-deploy
+// Garantías PERDIDAS respecto a swap atómico: atomicidad estricta y rollback automático
+//   (sustituido por git revert + redeploy o restaurar backup Hestia).
+
+declare(strict_types=1);
+
+$EXPECTED_TOKEN   = '__TOKEN__';
+$ZIP_FILENAME     = '__ZIP_FILENAME__';   // ej: dist-deploy-20260614_120000.zip
+$SMOKE_URLS_B64   = '__SMOKE_URLS_B64__'; // base64 del JSON con URLs+grep para smoke loopback
+$BASE_URL         = '__BASE_URL__';       // ej: https://clinicadentalbances.com
+$PRESERVE_B64     = '__PRESERVE_B64__';   // base64 del JSON con paths a preservar del cleanup
+
+header('Content-Type: text/plain; charset=utf-8');
+
+// 1. Auth timing-safe
+$provided = $_GET['token'] ?? '';
+if (!is_string($provided) || !hash_equals($EXPECTED_TOKEN, $provided)) {
+  http_response_code(403);
+  @unlink(__FILE__);
+  exit('Forbidden');
+}
+
+// 2. Auto-delete del propio PHP (ya cargado en memoria, sigue ejecutando)
+@unlink(__FILE__);
+
+// --- Helpers ---
+function listFilesRecursive(string $base, string $relPrefix = ''): array {
+  $files = [];
+  $items = @scandir($base);
+  if ($items === false) return $files;
+  foreach ($items as $item) {
+    if ($item === '.' || $item === '..') continue;
+    $full = $base . '/' . $item;
+    $rel = $relPrefix === '' ? $item : $relPrefix . '/' . $item;
+    if (is_dir($full) && !is_link($full)) {
+      $files = array_merge($files, listFilesRecursive($full, $rel));
+    } else {
+      $files[] = $rel;
+    }
+  }
+  return $files;
+}
+
+function removeEmptyDirs(string $base): int {
+  $removed = 0;
+  $items = @scandir($base);
+  if (!$items) return 0;
+  foreach ($items as $item) {
+    if ($item === '.' || $item === '..') continue;
+    $full = $base . '/' . $item;
+    if (is_dir($full) && !is_link($full)) {
+      $removed += removeEmptyDirs($full);
+      $sub = @scandir($full);
+      if ($sub && count($sub) === 2 && $full !== $base) {
+        if (@rmdir($full)) $removed++;
+      }
+    }
+  }
+  return $removed;
+}
+
+// Paths — el trigger vive en la raíz del docroot
+$pubDir = realpath(__DIR__);
+if ($pubDir === false) { echo "ERROR:realpath-failed"; exit(1); }
+$zipPath = $pubDir . '/' . $ZIP_FILENAME;
+
+if (!file_exists($zipPath)) { echo "ERROR:zip-missing:$zipPath"; exit(1); }
+
+// Preserve list (base64 → json). Protege api/config.local.php (contraseña SMTP).
+$preserveDecoded = @base64_decode($PRESERVE_B64, true);
+$preserveList = $preserveDecoded ? json_decode($preserveDecoded, true) : null;
+if (!is_array($preserveList)) $preserveList = ['api/config.local.php'];
+$preserveSet = array_flip($preserveList);
+
+// Sanity de config.local.php (debe sobrevivir intacto al extract).
+$configPath = $pubDir . '/api/config.local.php';
+$configExisted = file_exists($configPath);
+$configSizeBefore = $configExisted ? filesize($configPath) : 0;
+
+// manifest_pre (todo lo que hay ANTES)
+$manifestPre = listFilesRecursive($pubDir);
+
+// Abrir ZIP + manifest_zip; separar sitemap (2ª fase)
+$zip = new ZipArchive;
+$res = $zip->open($zipPath);
+if ($res !== TRUE) { echo "ERROR:zip-open:$res"; exit(1); }
+$count = $zip->numFiles;
+$manifestZipSet = [];
+$mainEntries = [];      // todo excepto sitemap*.xml
+$sitemapEntries = [];   // sitemap*.xml (se extraen al final)
+for ($i = 0; $i < $count; $i++) {
+  $name = $zip->getNameIndex($i);
+  if ($name === false) continue;
+  if (substr($name, -1) === '/') continue; // ignorar entradas de directorio
+  $manifestZipSet[$name] = true;
+  if (preg_match('#(^|/)sitemap[^/]*\.xml$#i', $name)) {
+    $sitemapEntries[] = $name;
+  } else {
+    $mainEntries[] = $name;
+  }
+}
+
+// Extract en 2 fases: A) todo menos sitemap, B) sitemap al final
+$ok = $zip->extractTo($pubDir . '/', $mainEntries);
+if (!$ok) { $zip->close(); echo "ERROR:zip-extract-main"; exit(1); }
+clearstatcache();
+if (!empty($sitemapEntries)) {
+  $okSitemap = $zip->extractTo($pubDir . '/', $sitemapEntries);
+  if (!$okSitemap) { $zip->close(); echo "ERROR:zip-extract-sitemap"; exit(1); }
+}
+$zip->close();
+
+// Verificar que config.local.php sigue intacto (extractTo no debería tocarlo: no está en el ZIP)
+$configIntactPost = file_exists($configPath) && (filesize($configPath) === $configSizeBefore);
+if ($configExisted && !$configIntactPost) {
+  echo "ERROR:config-local-corrupted:size_before=$configSizeBefore:size_after=" . (file_exists($configPath) ? filesize($configPath) : 'missing');
+  exit(1);
+}
+
+// Huérfanos = preexistentes - en_zip - preserve - el propio ZIP staging
+$orphans = [];
+foreach ($manifestPre as $path) {
+  if (isset($manifestZipSet[$path])) continue; // sigue en el nuevo build
+  if (isset($preserveSet[$path])) continue;     // protegido (config.local.php)
+  if ($path === $ZIP_FILENAME) continue;        // el propio ZIP staging
+  $orphans[] = $path;
+}
+
+$deletedCount = 0;
+$deletedFailed = 0;
+foreach ($orphans as $rel) {
+  $full = $pubDir . '/' . $rel;
+  if (is_link($full) || is_file($full)) {
+    if (@unlink($full)) { $deletedCount++; } else { $deletedFailed++; }
+  }
+}
+
+$emptyDirsRemoved = removeEmptyDirs($pubDir);
+
+@unlink($zipPath);
+
+// Smoke loopback (base64 → json)
+$smokeDecoded = @base64_decode($SMOKE_URLS_B64, true);
+$smokeUrls = $smokeDecoded ? json_decode($smokeDecoded, true) : null;
+$smokeFailed = false;
+$smokeDetails = [];
+if (!is_array($smokeUrls)) {
+  $smokeFailed = true;
+  $smokeDetails[] = 'invalid-smoke-config:jsonerr=' . json_last_error_msg();
+} else {
+  foreach ($smokeUrls as $check) {
+    $path = $check['url'] ?? '';
+    $url = rtrim($BASE_URL, '/') . $path;
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_TIMEOUT        => 10,
+      CURLOPT_CONNECTTIMEOUT => 5,
+      CURLOPT_SSL_VERIFYPEER => false,
+      CURLOPT_USERAGENT      => 'bances-deploy-smoke/1.0',
+    ]);
+    $body = curl_exec($ch);
+    $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    if ($code !== 200) { $smokeFailed = true; $smokeDetails[] = "$path:HTTP$code"; continue; }
+    if (!empty($check['grep']) && (!is_string($body) || strpos($body, $check['grep']) === false)) {
+      $smokeFailed = true; $smokeDetails[] = "$path:grep-fail"; continue;
+    }
+    $smokeDetails[] = "$path:OK";
+  }
+}
+
+if ($smokeFailed) {
+  echo "FAIL:smoke:" . implode('|', $smokeDetails) . ":extracted=$count:cleaned=$deletedCount:failed=$deletedFailed:emptydirs=$emptyDirsRemoved";
+  exit(1);
+}
+echo "OK:extracted=$count:cleaned=$deletedCount:failed=$deletedFailed:emptydirs=$emptyDirsRemoved:smoke=" . implode('|', $smokeDetails);

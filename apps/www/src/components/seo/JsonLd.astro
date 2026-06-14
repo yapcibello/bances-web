@@ -1,0 +1,20 @@
+---
+/**
+ * JsonLd — componente reutilizable que serializa un objeto schema.org
+ * en un bloque <script type="application/ld+json">.
+ *
+ * Uso:
+ *   <JsonLd schema={{ '@context': 'https://schema.org', '@type': 'Article', ... }} />
+ *
+ * El objeto debe ser JSON-serializable. Astro usa `set:html` con JSON.stringify
+ * para emitir el contenido sin escapado HTML adicional.
+ */
+interface Props {
+  /** Objeto schema.org (o array de objetos) a serializar. */
+  schema: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const { schema } = Astro.props;
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

@@ -22,7 +22,7 @@ module.exports = {
         // Texto e interfaz neutra.
         ink: {
           DEFAULT: '#0D0D0D', // casi negro — títulos (--e-global-color-primary)
-          soft: '#7A7A7A',    // gris cuerpo (--e-global-color-text)
+          soft: '#595959',    // gris cuerpo — ajustado de #7A7A7A (4.29:1, no llega a AA) a #595959 (7:1, AAA) por accesibilidad; revertir a #7A7A7A si se prioriza fidelidad cromática exacta
         },
         // Alias semánticos de Elementor para mapear 1:1 al diseño origen.
         accent: '#EF7723',

@@ -1,15 +1,16 @@
 # Pendientes — bances-web
 
-## Prioritario
+## Prioritario (→ requieren operario, ver `planes/2026-06-14-f0-bootstrap-bances/`)
 
-- [ ] **Pulido visual fino**: la home ya es responsive-fiel a producción (móvil/tablet/escritorio) con hero en vídeo; faltan espaciados/colores exactos de algunos bloques. Pulir también las 8 páginas estáticas y los listados de blog comparando con producción
-- [ ] **Mejoras SEO/GEO/AAA** (auditorías previas se cortaron): robots.txt, llms.txt, schema LocalBusiness/Dentist + BreadcrumbList + Article, titles/descriptions por página, página `/accesibilidad/`, verificación de contrastes
-- [ ] Continuar workflow init-web-astro: fases gtm/deploy baselines → verificación → plan-f0. Run `init-web-astro-20260612-194329`
+- [ ] **Credenciales de producción**: FTP Hestia en `.env`, `config.local.php` con SMTP real, `PUBLIC_GTM_ID` del contenedor GTM/GA4. Nunca en el repo
+- [ ] **Decidir sobre imágenes rotas de posts antiguos (26)**: están 404 también en producción; mantener 1:1 o re-subir/editar (es contenido migrado → decisión del operario)
+- [ ] **Corte WP → Astro**: deploy a staging Hestia + smoke + verificación de paridad 1:1 + DNS cuando el cliente apruebe
 
 ## Mejoras
 
-- [ ] Sustituir paleta provisional de `packages/config/tailwind.preset.cjs` por la extraída del CSS real del WP
-- [ ] Crear `public/og-default.jpg` (referenciado en Layout.astro, aún inexistente)
+- [ ] **Pulido visual fino restante**: matices de la home (saturación del bloque Seguros, sección "Opiniones") + revisión página a página de las 8 estáticas contra producción
+- [ ] **Wirear bloques GEO** (`Faq.astro`, `BloqueCita.astro`) cuando haya FAQ reales y horario confirmado de la clínica
+- [ ] **Contraste de enlaces/acento**: valorar subrayado redundante o token de enlace más oscuro (#D2641A → ~#A8501A) frente a fidelidad cromática exacta
 
 ## Ideas
 
@@ -18,3 +19,4 @@
 ## Deuda técnica
 
 - [ ] `@bances/seo` referenciado en `vite.optimizeDeps.exclude` sin ser dependencia declarada de www — añadir `workspace:*` cuando se consuma
+- [ ] `pnpm test` sigue siendo un placeholder (`echo 'TODO'`) — definir suite mínima (build + paridad URLs + smoke)

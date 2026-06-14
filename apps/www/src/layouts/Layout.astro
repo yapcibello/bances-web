@@ -11,6 +11,23 @@ import '../styles/global.css';
 import { siteConfig } from '../utils/siteConfig';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+
+/** Migaja de pan para el JSON-LD BreadcrumbList. */
+interface BreadcrumbItem {
+  name: string;
+  url: string;
+}
+
+/** Datos de un artículo/post para el JSON-LD Article (BlogPosting). */
+interface ArticleData {
+  title: string;
+  description?: string;
+  image?: string;
+  datePublished: string;
+  dateModified?: string;
+  author?: string;
+}
 
 interface Props {
   title: string;
@@ -18,6 +35,17 @@ interface Props {
   image?: string;
   noIndex?: boolean;
   canonicalOverride?: string;
+  /**
+   * Migas de pan opcionales. Si llegan, se emite un JSON-LD BreadcrumbList.
+   * Cada `url` debe ser absoluta o relativa al dominio (se resuelve con Astro.site).
+   * El wiring por página es opcional; la prop queda lista para usarse.
+   */
+  breadcrumbs?: BreadcrumbItem[];
+  /**
+   * Datos de artículo opcionales. Si llegan, se emite un JSON-LD Article
+   * (tipado como BlogPosting). Pensado para los posts del blog.
+   */
+  article?: ArticleData;
 }
 
 const {
@@ -26,6 +54,8 @@ const {
   image = '/og-default.jpg',
   noIndex = false,
   canonicalOverride,
+  breadcrumbs,
+  article,
 } = Astro.props;
 
 // GTM — opcional; si PUBLIC_GTM_ID no está definido, no se inyecta nada.
@@ -40,12 +70,26 @@ const canonicalURL = canonicalOverride
   : new URL(Astro.url.pathname, Astro.site);
 const socialImage = new URL(image, Astro.site);
 
-// JSON-LD Organization con datos reales de Clínica Dental Bances.
+// Redes sociales reales del footer Elementor (idénticas a las del Footer).
+// Solo Facebook e Instagram están presentes en el WP origen.
+const redesSociales = [
+  'https://www.facebook.com/ClinicaDentalBances/',
+  'https://www.instagram.com/clinicabances/',
+];
+
+// JSON-LD Dentist (LocalBusiness) con datos reales de Clínica Dental Bances.
+// Solo se incluyen campos con datos verificados en siteConfig / Footer.
+// Omitidos por falta de dato real: openingHoursSpecification (no hay horarios),
+// priceRange (no se conoce), aggregateRating/review (sin datos de reseñas).
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Dentist',
+  '@id': `${siteConfig.dominio}/#dentist`,
   name: siteConfig.marca,
+  legalName: siteConfig.legalName,
   url: siteConfig.dominio,
+  image: new URL(siteConfig.logo.horizontal, Astro.site).href,
+  logo: new URL(siteConfig.logo.horizontal, Astro.site).href,
   email: siteConfig.email,
   telephone: siteConfig.telefonos.map((t) => t.numero),
   address: {
@@ -56,7 +100,62 @@ const organizationSchema = {
     addressRegion: siteConfig.direccion.region,
     addressCountry: siteConfig.direccion.country,
   },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: siteConfig.geo.latitude,
+    longitude: siteConfig.geo.longitude,
+  },
+  areaServed: {
+    '@type': 'City',
+    name: 'Santa Cruz de Tenerife',
+  },
+  sameAs: redesSociales,
 };
+
+// JSON-LD BreadcrumbList — solo si llegan migas de pan.
+const breadcrumbSchema = breadcrumbs?.length
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: breadcrumbs.map((b, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: b.name,
+        item: new URL(b.url, Astro.site).href,
+      })),
+    }
+  : null;
+
+// JSON-LD Article (BlogPosting) — solo si llegan datos de artículo.
+const articleSchema = article
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      headline: article.title,
+      description: article.description ?? description,
+      image: article.image
+        ? new URL(article.image, Astro.site).href
+        : socialImage.href,
+      datePublished: article.datePublished,
+      dateModified: article.dateModified ?? article.datePublished,
+      author: {
+        '@type': 'Organization',
+        name: article.author ?? siteConfig.marca,
+      },
+      publisher: {
+        '@type': 'Organization',
+        name: siteConfig.marca,
+        logo: {
+          '@type': 'ImageObject',
+          url: new URL(siteConfig.logo.horizontal, Astro.site).href,
+        },
+      },
+      mainEntityOfPage: {
+        '@type': 'WebPage',
+        '@id': canonicalURL.href,
+      },
+    }
+  : null;
 ---
 
 <!DOCTYPE html>
@@ -94,8 +193,14 @@ const organizationSchema = {
     <meta name="geo.position" content={`${siteConfig.geo.latitude};${siteConfig.geo.longitude}`} />
     <meta name="ICBM" content={`${siteConfig.geo.latitude}, ${siteConfig.geo.longitude}`} />
 
-    <!-- Schema.org Organization -->
-    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+    <!-- Schema.org — Dentist (LocalBusiness) -->
+    <JsonLd schema={organizationSchema} />
+
+    <!-- Schema.org — BreadcrumbList (solo si llegan migas de pan) -->
+    {breadcrumbSchema && <JsonLd schema={breadcrumbSchema} />}
+
+    <!-- Schema.org — Article/BlogPosting (solo en posts) -->
+    {articleSchema && <JsonLd schema={articleSchema} />}
 
     <meta name="generator" content={Astro.generator} />
 
@@ -134,5 +239,21 @@ const organizationSchema = {
       <slot />
     </main>
     <Footer />
+
+    <!-- Capa de datos para GTM/GA4: registra el envío de los formularios de
+         cita como evento `lead_form_submit` (medición de conversiones). Se
+         inicializa dataLayer aunque GTM no esté presente, sin efectos visibles. -->
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      document.addEventListener('submit', function (e) {
+        var form = e.target;
+        if (form && form.matches && form.matches('form[action*="contacto.php"]')) {
+          window.dataLayer.push({
+            event: 'lead_form_submit',
+            form_id: form.getAttribute('aria-label') || 'formulario_cita',
+          });
+        }
+      });
+    </script>
   </body>
 </html>

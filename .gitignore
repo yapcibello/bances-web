@@ -2,10 +2,15 @@ node_modules/
 dist/
 .env
 .env.*
+!.env.example
 *.key
 *.pem
 .astro/
 tmp/
+
+# ZIP de staging que genera el deploy FTP (scripts/deploy-ftp.sh)
+dist-deploy-*.zip
+*.zip
 
 # Config local del endpoint PHP (secreto SMTP — nunca commitear)
 apps/www/public/api/config.local.php

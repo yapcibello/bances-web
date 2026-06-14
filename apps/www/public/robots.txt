@@ -1,0 +1,8 @@
+# robots.txt — Clínica Dental Bances (clinicadentalbances.com)
+# Indexación abierta para todo el sitio público.
+
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://clinicadentalbances.com/sitemap-index.xml

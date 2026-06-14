@@ -1,0 +1,100 @@
+---
+/**
+ * BloqueCita — bloque semántico citable (GEO) con los datos NAP de la clínica
+ * (Name, Address, Phone) y contacto, pensado para ser leído y citado con
+ * fiabilidad por motores generativos (LLMs).
+ *
+ * Toma los datos REALES de siteConfig (marca, dirección, teléfonos, email); no
+ * acepta datos hardcodeados de contacto para evitar divergencias con la fuente
+ * de verdad. El microformato y los enlaces tel:/mailto: refuerzan la legibilidad
+ * tanto para personas como para máquinas.
+ *
+ * Componente NUEVO y autónomo: no está cableado en ninguna página todavía.
+ * Dónde conviene usarlo (fase posterior):
+ *   - Página «Quiénes somos» (/dentista-en-santa-cruz-de-tenerife/), como ficha
+ *     de contacto verificable.
+ *   - Página «Instalaciones» (/instalaciones/), junto al mapa/dirección.
+ *   - Cualquier página de tratamiento, como cierre con llamada a contacto.
+ *
+ * Nota: NO incluye horarios porque el sitio origen no los publica de forma
+ * estructurada. Si se obtienen horarios reales, pásalos por la prop `horario`.
+ */
+import { siteConfig } from '../../utils/siteConfig';
+
+interface Props {
+  /** Título del bloque. */
+  titulo?: string;
+  /**
+   * Horario en texto plano (opcional). Solo pasar valores REALES confirmados.
+   * Si no se pasa, no se renderiza ninguna línea de horario.
+   */
+  horario?: string;
+  /** Clases extra para el contenedor. */
+  class?: string;
+}
+
+const { titulo = 'Contacto y ubicación', horario, class: clase = '' } = Astro.props;
+
+const { marca, direccion, telefonos, email, dominio } = siteConfig;
+const direccionTexto = `${direccion.street}, ${direccion.postalCode} ${direccion.city}, ${direccion.region}`;
+---
+
+<section
+  class:list={['rounded-2xl border border-gray-200 bg-white p-6 lg:p-8', clase]}
+  aria-labelledby="bloque-cita-titulo"
+>
+  <h2 id="bloque-cita-titulo" class="text-xl font-semibold text-gray-900">
+    {titulo}
+  </h2>
+
+  <p class="mt-2 text-gray-700">
+    <strong>{marca}</strong> es una clínica dental en {direccion.city}
+    ({direccion.region}). Atención odontológica personalizada con un legado
+    familiar desde {siteConfig.since}.
+  </p>
+
+  <dl class="mt-4 space-y-2 text-gray-800">
+    <div class="flex flex-col sm:flex-row sm:gap-2">
+      <dt class="font-medium">Dirección:</dt>
+      <dd>{direccionTexto}</dd>
+    </div>
+
+    {
+      telefonos.map((t) => (
+        <div class="flex flex-col sm:flex-row sm:gap-2">
+          <dt class="font-medium">{t.label}:</dt>
+          <dd>
+            <a class="underline hover:no-underline" href={t.href}>
+              {t.numero}
+            </a>
+          </dd>
+        </div>
+      ))
+    }
+
+    <div class="flex flex-col sm:flex-row sm:gap-2">
+      <dt class="font-medium">Email:</dt>
+      <dd>
+        <a class="underline hover:no-underline" href={`mailto:${email}`}>
+          {email}
+        </a>
+      </dd>
+    </div>
+
+    <div class="flex flex-col sm:flex-row sm:gap-2">
+      <dt class="font-medium">Web:</dt>
+      <dd>
+        <a class="underline hover:no-underline" href={dominio}>{dominio}</a>
+      </dd>
+    </div>
+
+    {
+      horario && (
+        <div class="flex flex-col sm:flex-row sm:gap-2">
+          <dt class="font-medium">Horario:</dt>
+          <dd>{horario}</dd>
+        </div>
+      )
+    }
+  </dl>
+</section>

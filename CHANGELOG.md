@@ -1,5 +1,19 @@
 # Changelog — bances-web
 
+## [2026-06-14] — Cierre fases 5-14 init-web-astro: pulido home + SEO/GEO/AAA + deploy
+
+- feat(home): hero rehecho 1:1 con producción — vídeo a sangre completa, eslogan abajo-izquierda y barra de cita horizontal debajo (Nombre, Email, Teléfono, Tratamiento) en vez del formulario flotante previo
+- fix(home): la sección intro mostraba un QR de Instagram en lugar de foto; sustituida por la foto real de la clínica (`CLINICA-NUEVA-1.1-38.webp`)
+- fix(form): el formulario rápido del hero daba 422 (el backend exige `mensaje`); añadido `mensaje` oculto por defecto + microcopia de política de privacidad
+- feat(seo): JSON-LD `Dentist` enriquecido (geo, areaServed, sameAs, logo) + props `breadcrumbs`/`article` en Layout + `BlogPosting` wireado en posts + `robots.txt` + `og-default.jpg` (1200×630)
+- feat(geo): `llms.txt` y `llms-full.txt` + componentes citables `BloqueCita.astro` y `Faq.astro` (FAQPage JSON-LD), listos para wirear con contenido real
+- feat(a11y): página `/accesibilidad/` (declaración W3C/UNE-EN 301549) + `:focus-visible` reforzado + `prefers-reduced-motion` + `ink-soft` #7A7A7A→#595959 (4.29:1 → 7:1, AAA en texto de cuerpo)
+- feat(gtm): `dataLayer` inicializado + evento `lead_form_submit` en envío de formularios de cita + `.env.example` (deploy + SMTP)
+- feat(deploy): `scripts/deploy-ftp.sh` (ZIP + lftp a Hestia) + `scripts/deploy-swap.php.template` (extract atómico) — credenciales solo por entorno
+- docs: blueprint `proyecto/arquitectura.md`, `runbook.md`, `api.md` rellenados con contenido real; plan F0 en `planes/2026-06-14-f0-bootstrap-bances/`
+- chore: 13 skills del ecosistema instalados en `.claude/skills/` (migración WP→Astro, SEO local/GEO/AAA, GTM/GA4, monorepo, megamenú ARIA)
+- nota: 26 imágenes de cuerpo de posts antiguos (2016-2020) están rotas también en producción (404); se mantienen 1:1 — su corrección queda a decisión del operario (plan F0)
+
 ## [2026-06-14] — Pulido visual responsive de la home
 
 - feat: hero de la home con vídeo de fondo (réplica del Elementor background video de producción) + póster e imagen fallback para `prefers-reduced-motion` (AAA 2.3.3)

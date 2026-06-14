@@ -1,0 +1,185 @@
+---
+/**
+ * Declaración de accesibilidad — URL NUEVA (/accesibilidad/).
+ *
+ * No replica ninguna página del WordPress origen: es contenido propio de la
+ * migración Astro. Redactada como declaración de intención y de medidas
+ * adoptadas (estilo W3C / UNE-EN 301549), NO como certificación auditada:
+ * no se afirma un porcentaje de conformidad medido ni una fecha de auditoría
+ * externa, porque no se han realizado. El objetivo declarado es AAA donde es
+ * técnicamente posible, con AA garantizado en los componentes nuevos.
+ *
+ * Mantiene el mismo patrón visual que las páginas legales (aviso-legal,
+ * política-de-privacidad): contenedor centrado + prosa accesible.
+ */
+import Layout from '../../layouts/Layout.astro';
+import { siteConfig } from '../../utils/siteConfig';
+
+const title = 'Declaración de accesibilidad';
+const description =
+  'Declaración de accesibilidad de Clínica Dental Bances: compromiso de conformidad WCAG 2.2, medidas adoptadas, limitaciones conocidas y cómo informar de problemas de accesibilidad.';
+
+const email = siteConfig.email;
+const telefonoPrincipal = siteConfig.telefonos[0];
+const marca = siteConfig.marca;
+---
+
+<Layout title={title} description={description}>
+  <section class="py-14 lg:py-20">
+    <div class="mx-auto max-w-[860px] px-4 sm:px-6 lg:px-8">
+      <h1 class="font-heading text-3xl font-bold text-ink sm:text-4xl">{title}</h1>
+
+      <div
+        class="prose prose-neutral mt-8 max-w-none prose-headings:font-heading prose-headings:text-ink prose-p:text-ink-soft prose-li:text-ink-soft prose-a:text-primary-dark hover:prose-a:text-primary"
+      >
+        <p>
+          En <strong>{marca}</strong> queremos que cualquier persona pueda
+          acceder a la información y a los servicios de este sitio web, con
+          independencia de sus capacidades, de la tecnología que utilice o de
+          su contexto de navegación. Esta declaración describe nuestro
+          compromiso, las medidas que hemos adoptado y las limitaciones que
+          conocemos.
+        </p>
+
+        <h2>Compromiso de conformidad</h2>
+        <p>
+          Tomamos como referencia las
+          <a
+            href="https://www.w3.org/WAI/WCAG22/quickref/?currentsidebar=%23col_overview"
+            rel="noopener noreferrer"
+            target="_blank"
+          >Pautas de Accesibilidad para el Contenido Web (WCAG) 2.2</a>
+          del W3C y la norma europea UNE-EN 301549.
+        </p>
+        <p>
+          Nuestro objetivo es alcanzar el <strong>nivel AAA siempre que es
+          técnicamente posible</strong> en los componentes desarrollados de
+          forma nativa para este sitio, garantizando como mínimo el
+          <strong>nivel AA</strong> en ellos. Se trata de una declaración de
+          intención y de medidas: no se basa en una auditoría externa
+          certificada ni afirmamos un porcentaje de conformidad medido. La
+          accesibilidad la entendemos como un proceso de mejora continua.
+        </p>
+
+        <h2>Tecnologías soportadas</h2>
+        <p>
+          La presentación y el funcionamiento de este sitio dependen de las
+          siguientes tecnologías:
+        </p>
+        <ul>
+          <li>HTML5 con marcado semántico.</li>
+          <li>CSS para la presentación visual.</li>
+          <li>
+            JavaScript para mejoras progresivas (el contenido principal
+            permanece accesible aunque JavaScript esté desactivado).
+          </li>
+          <li>
+            Atributos WAI-ARIA únicamente cuando el HTML nativo no es
+            suficiente.
+          </li>
+        </ul>
+
+        <h2>Medidas adoptadas</h2>
+        <p>
+          En los componentes nuevos de este sitio hemos aplicado, entre otras,
+          las siguientes medidas:
+        </p>
+        <ul>
+          <li>
+            <strong>Estructura semántica:</strong> uso de
+            encabezados jerárquicos, regiones (<code>header</code>,
+            <code>main</code>, <code>footer</code>), listas y elementos nativos
+            de formulario para facilitar la navegación con lectores de
+            pantalla.
+          </li>
+          <li>
+            <strong>Navegación completa por teclado:</strong> todos los
+            elementos interactivos se pueden alcanzar y activar con el teclado,
+            en un orden de foco lógico.
+          </li>
+          <li>
+            <strong>Enlace para saltar al contenido:</strong> un
+            <em>skip link</em> permite saltar directamente al contenido
+            principal sin recorrer toda la navegación.
+          </li>
+          <li>
+            <strong>Foco visible:</strong> los elementos que reciben el foco por
+            teclado muestran un indicador claramente perceptible.
+          </li>
+          <li>
+            <strong>Respeto a la preferencia de movimiento reducido:</strong> si
+            el sistema operativo indica
+            <code>prefers-reduced-motion</code>, se neutralizan animaciones,
+            transiciones y el desplazamiento suave.
+          </li>
+          <li>
+            <strong>Contraste de color:</strong> buscamos relaciones de
+            contraste suficientes entre texto y fondo, conforme a WCAG 2.2.
+          </li>
+          <li>
+            <strong>Textos alternativos:</strong> las imágenes con valor
+            informativo incluyen una descripción textual; las decorativas se
+            marcan para que los lectores de pantalla las ignoren.
+          </li>
+          <li>
+            <strong>Áreas táctiles amplias:</strong> los controles
+            interactivos nuevos disponen de un área de activación de al menos
+            44 × 44 píxeles.
+          </li>
+          <li>
+            <strong>Idioma declarado:</strong> el documento indica su idioma
+            (<code>lang="es"</code>) para una pronunciación correcta por parte
+            de los lectores de pantalla.
+          </li>
+        </ul>
+
+        <h2>Limitaciones conocidas</h2>
+        <p>
+          Este sitio procede de la migración de una web anterior. Parte de su
+          contenido (textos, imágenes y maquetación) se ha preservado de forma
+          fiel respecto al sitio original para mantener la identidad de la
+          clínica. Por ese motivo:
+        </p>
+        <ul>
+          <li>
+            Algunos contenidos migrados pueden no alcanzar el nivel AAA en todos
+            los criterios (por ejemplo, el contraste de ciertos textos
+            secundarios o determinados textos alternativos heredados).
+          </li>
+          <li>
+            Es posible que existan documentos o materiales enlazados de origen
+            externo cuya accesibilidad no controlamos directamente.
+          </li>
+        </ul>
+        <p>
+          Trabajamos de forma progresiva para reducir estas limitaciones sin
+          alterar la identidad visual ni la información de la clínica.
+        </p>
+
+        <h2>Cómo informar de problemas de accesibilidad</h2>
+        <p>
+          Si encuentras alguna barrera de accesibilidad, si necesitas un
+          contenido en un formato alternativo o si tienes cualquier sugerencia
+          de mejora, puedes comunicárnoslo. Atenderemos tu solicitud lo antes
+          posible.
+        </p>
+        <ul>
+          <li>
+            Correo electrónico:
+            <a href={`mailto:${email}`}>{email}</a>
+          </li>
+          <li>
+            Teléfono:
+            <a href={telefonoPrincipal.href}>{telefonoPrincipal.numero}</a>
+          </li>
+        </ul>
+        <p>
+          Indícanos, en la medida de lo posible, la página concreta donde
+          detectaste el problema y una breve descripción de la dificultad
+          encontrada. Esa información nos ayuda a localizar y resolver la
+          incidencia con mayor rapidez.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>

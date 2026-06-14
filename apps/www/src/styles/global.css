@@ -40,6 +40,23 @@
   :focus-visible {
     outline: 3px solid theme('colors.primary.DEFAULT');
     outline-offset: 2px;
+    /* Radio coherente con el outline para controles redondeados. */
+    border-radius: 2px;
+  }
+
+  /*
+   * Refuerzo del foco sobre fondos oscuros o de marca (botones primarios,
+   * Hero sobre vídeo): se añade una sombra clara para garantizar contraste
+   * del indicador en cualquier contexto, sin recolorear los componentes.
+   */
+  a:focus-visible,
+  button:focus-visible,
+  [role='button']:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    box-shadow: 0 0 0 2px #fff, 0 0 0 5px theme('colors.primary.DEFAULT');
+    outline-offset: 2px;
   }
 
   /* Skip link — oculto hasta recibir foco por teclado. */
@@ -55,10 +72,50 @@
     top: 0.5rem;
   }
 
-  /* Respeta la preferencia de reducir movimiento. */
+  /*
+   * Desplazamiento de las anclas (#Contacto, #main, secciones internas):
+   * deja un margen superior para que el destino no quede pegado al borde
+   * ni oculto bajo cabeceras fijas al saltar a un ancla.
+   */
+  :target {
+    scroll-margin-top: 6rem;
+  }
+
+  /*
+   * Texto solo para lectores de pantalla. Visualmente oculto pero accesible
+   * para tecnologías de asistencia. Lo usa el Hero (y cualquier contenido que
+   * deba anunciarse sin mostrarse). Patrón estándar (WCAG, equivalente a la
+   * utilidad sr-only de Tailwind, garantizado aquí por si no se purga).
+   */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /*
+   * Respeta la preferencia de reducir movimiento (WCAG 2.3.3 AAA).
+   * Neutraliza animaciones, transiciones, scroll suave y autoplay implícito
+   * para personas sensibles al movimiento.
+   */
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
     }
   }
 }

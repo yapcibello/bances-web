@@ -55,6 +55,14 @@ const tags = (
   description={post.data.description}
   image={post.data.heroImage}
   canonicalOverride={hrefPost(post)}
+  article={{
+    title: post.data.title,
+    description: post.data.description,
+    image: post.data.heroImage,
+    datePublished: post.data.pubDate.toISOString(),
+    dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
+    author: post.data.author,
+  }}
 >
   <article>
     <Seccion>
