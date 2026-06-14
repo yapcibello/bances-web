@@ -8,7 +8,7 @@
 
 ## Mejoras
 
-- [ ] **Pulido visual fino restante**: matices de la home (saturación del bloque Seguros, sección "Opiniones") + revisión página a página de las 8 estáticas contra producción
+- [ ] **Pulido visual fino restante** (2026-06-14): las 8 estáticas + índice de blog verificadas página a página — sólidas, sin bugs (Quiénes Somos incluso mejora a producción con grid de equipo). Quedan solo matices opcionales de la home: saturación del bloque Seguros y fotos de la sección "Opiniones" frente al layout Elementor de producción
 - [ ] **Wirear bloques GEO** (`Faq.astro`, `BloqueCita.astro`) cuando haya FAQ reales y horario confirmado de la clínica
 - [ ] **Contraste de enlaces/acento**: valorar subrayado redundante o token de enlace más oscuro (#D2641A → ~#A8501A) frente a fidelidad cromática exacta
 
