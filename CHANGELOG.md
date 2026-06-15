@@ -1,6 +1,9 @@
 # Changelog — bances-web
 
-## [2026-06-15] — Landings de tratamiento ricas (réplica 1:1 del contenido de producción)
+## [2026-06-15] — Matiz visual home + landings de tratamiento
+
+- style(home): la sección "Opiniones de nuestros clientes" pasa a fondo peach `#F1C1A0` (token `primary.pale`) con tarjetas blancas, igual que producción (antes fondo blanco). Verificado que el bloque "Seguros" ya coincidía en blanco con el origen
+
 
 - feat: las 11 páginas de tratamiento (`/implantes-dentales/`, `/blanqueamiento-dental/`, `/ortodoncia/`, `/endodoncias/`, `/periodoncia/`, `/cirugia-oral/`, `/odontologia-conservadora/`, `/odontopediatria/`, `/odontologia-digital/`, `/protesis-dentales/`, `/radiologia-dental-3d/`) pasan de listado de categoría a **landing completa** con el contenido REAL de producción: hero + intro + secciones (texto, listas e imágenes) + artículos relacionados
 - feat: contenido en `apps/www/src/data/tratamientos.ts` (41 secciones, extraídas del mirror) + componente `components/paginas/TratamientoLanding.astro` + 33 imágenes de tratamiento descargadas a `public/`
