@@ -209,7 +209,6 @@ const articleSchema = article
     <!-- Schema.org — Article/BlogPosting (solo en posts) -->
     {articleSchema && <JsonLd schema={articleSchema} />}
 
-    <meta name="generator" content={Astro.generator} />
 
     <!-- Google Tag Manager -->
     {gtmId && (

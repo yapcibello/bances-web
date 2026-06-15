@@ -81,4 +81,6 @@ Qué funcionó, qué no, qué aprendimos.
 
 ## Planes actuales
 
-(Ninguno en curso. Los planes completados se eliminan tras finalizar; su contenido queda preservado en `CHANGELOG.md`, en los mensajes de commit y en la memoria persistente de `ypc-memory`.)
+- **`2026-06-14-f0-bootstrap-bances/`** — tareas humanas para llevar la migración a producción (credenciales FTP/SMTP/GTM, confirmación de contenido, corte DNS). Abierto.
+
+Los planes completados se eliminan tras finalizar; su contenido queda preservado en `CHANGELOG.md`, en los mensajes de commit y en la memoria persistente de `ypc-memory`.

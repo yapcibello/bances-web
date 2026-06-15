@@ -133,16 +133,20 @@ Los slugs de 1 segmento reservados a páginas estáticas (`SLUGS_ESTATICOS` en `
 
 ## Capa SEO
 
-Centralizada en `apps/www/src/layouts/Layout.astro` (props: `title`, `description`, `image`, `noIndex`, `canonicalOverride`):
+Centralizada en `apps/www/src/layouts/Layout.astro` (props: `title`, `description`, `image`, `noIndex`, `canonicalOverride`, `breadcrumbs`, `article`):
 
-- **`<title>`** compuesto (`título | marca`), **meta description**, **robots** (`index,follow` o `noindex,nofollow` según `noIndex`).
+- **`<title>`** compuesto (`título | marca`), **meta description**, **robots** (`index,follow` o `noindex,nofollow` según `noIndex`). Sin `<meta generator>` (política SMedialab: no exponer stack/versión).
 - **Canonical**: `new URL(Astro.url.pathname, Astro.site)` o `canonicalOverride` (los posts lo fijan con `hrefPost(post)` para garantizar la URL inmutable).
-- **Open Graph** (`og:site_name/type/url/title/description/image/locale`) y **Twitter Card** (`summary_large_image`).
+- **Open Graph** (`og:site_name/type/url/title/description/image/locale`) y **Twitter Card** (`summary_large_image`); `og-default.jpg` 1200×630 como imagen por defecto.
 - **Geo tags** locales (`geo.region`, `geo.placename`, `geo.position`, `ICBM`) desde `siteConfig.geo`.
-- **JSON-LD** `@type: Dentist` (Organization) con datos reales: nombre, URL, email, teléfonos, dirección postal completa.
-- **Sitemap**: generado por `@astrojs/sitemap` en build (`sitemap-index.xml`).
-- **GTM**: inyectado solo si `PUBLIC_GTM_ID` está definido en `.env` (script `<head>` + `<noscript>` iframe).
-- **Accesibilidad AAA**: `<html lang="es">`, skip-link "Saltar al contenido", `<main id="main">`.
+- **JSON-LD** (serializados con `components/seo/JsonLd.astro`):
+  - `@type: Dentist` (LocalBusiness) con datos reales: nombre, URL, logo/image, email, teléfonos, dirección, `geo`, `areaServed`, `openingHoursSpecification` (horario real de `siteConfig.openingHours`) y `sameAs` (Facebook/Instagram).
+  - `BreadcrumbList` si llega la prop `breadcrumbs`; `BlogPosting` si llega `article` (wireado en los posts).
+  - `FAQPage` emitido por `components/geo/Faq.astro`: FAQ general en la home (7 Q&A) y FAQ por tratamiento en `[categoria]/index.astro` (datos en `src/data/faqsTratamientos.ts`, 32 Q&A reales en 10 tratamientos).
+- **GEO**: `public/llms.txt` + `llms-full.txt`; componente `components/geo/BloqueCita.astro` (NAP + horario citable) usado en "Quiénes Somos".
+- **`robots.txt`** estático (`Disallow: /api/`, sitemap) y **sitemap** `@astrojs/sitemap` (`sitemap-index.xml`).
+- **GTM/GA4**: inyectado solo si `PUBLIC_GTM_ID` está definido en `.env` (script `<head>` + `<noscript>` iframe) + `dataLayer` con evento `lead_form_submit` al enviar los formularios de cita.
+- **Accesibilidad AAA**: `<html lang="es">`, skip-link "Saltar al contenido", `<main id="main">`, `:focus-visible` reforzado, `prefers-reduced-motion`, página `/accesibilidad/` (declaración W3C). Texto de cuerpo `ink-soft` #595959 (7:1).
 
 ## Flujo de datos del formulario
 

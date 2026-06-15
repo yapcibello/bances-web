@@ -33,8 +33,9 @@ Ambos formularios viven en la home con `method="post"` y `action="/api/contacto.
 | Email | `email` | email | Sí |
 | Teléfono | `telefono` | tel | No |
 | Tratamiento | `tratamiento` | select | No |
+| Mensaje (oculto) | `mensaje` | hidden | Sí (valor por defecto) |
 
-> El Hero no envía `mensaje` ni `rgpd`. Ver "Validación" — el backend exige `mensaje` y `rgpd`, por lo que el envío directo del Hero será rechazado con 422 hasta que se ajuste el flujo (ver nota en "Pendientes").
+> El Hero envía un `mensaje` oculto con valor por defecto ("Solicitud rápida de cita desde el formulario destacado de la home.") para cumplir la validación del backend (`mensaje` ≥ 5). Muestra una microcopia con enlace a la política de privacidad; el `rgpd` no es bloqueante en el backend (ver "Validación").
 
 ### Formulario de contacto (`components/home/Contacto.astro`)
 
@@ -58,8 +59,8 @@ El backend lee los campos `nombre`, `email`, `telefono`, `tratamiento`, `mensaje
 - `nombre`: longitud ≥ 2.
 - `email` o `telefono`: al menos uno presente.
 - `email`: si se envía, debe ser válido (`FILTER_VALIDATE_EMAIL`).
-- `mensaje`: longitud ≥ 5.
-- consentimiento (`rgpd`/`privacidad`): obligatorio.
+- `mensaje`: longitud ≥ 5 (el Hero lo cubre con un valor oculto por defecto).
+- consentimiento (`rgpd`/`privacidad`): se recoge y registra, pero **no es un error bloqueante** en el backend actual (el formulario de contacto lo exige en cliente con `required`).
 
 Tras validar, los campos se sanitizan con `htmlspecialchars(... ENT_QUOTES, 'UTF-8')` antes de componer el correo.
 
@@ -117,6 +118,6 @@ Si `config.local.php` no existe o `smtp_password` está vacío, el endpoint inte
 
 ## Pendientes / a revisar en deploy
 
-- **Coherencia de campos del Hero con la validación**: el formulario del Hero no envía `mensaje` ni `rgpd`, que el backend exige (422). Decidir antes del deploy si el Hero debe enviar valores por defecto/ocultos para esos campos o si el backend debe relajar la validación para ese origen. No alterado aquí (fuera del alcance de documentación).
+- **Coherencia de campos del Hero con la validación** (resuelto 2026-06-14): el Hero envía un `mensaje` oculto por defecto, por lo que ya no se produce el 422. El `rgpd` no es bloqueante en el backend.
 - **Buzón/relay SMTP definitivo**: host y usuario por defecto apuntan al relay de SMedialab; confirmar el buzón real de la clínica.
 - **Exclusión de `config.local.php`** del ZIP de deploy (ver `proyecto/runbook.md` y `proyecto/despliegue.md`).

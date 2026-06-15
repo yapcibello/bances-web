@@ -32,4 +32,4 @@ Migración WordPress → Astro de [clinicadentalbances.com](https://clinicadenta
 
 - **Siempre**: preservar URLs 1:1 con el WP origen; AAA WCAG 2.2 en componentes nuevos; verificar build antes de proponer deploy
 - **Preguntar antes**: modificar CUALQUIER URL existente (regla de URLs inmutables); tocar textos o imágenes del contenido migrado; añadir dependencias fuera del catalog
-- **Nunca**: redirects 301 para "resolver" cambios de slug; secretos en el repo; deploy sin tests verdes
+- **Nunca**: redirects 301 para "resolver" cambios de slug; secretos en el repo; deploy sin tests verdes; incluir `<meta name="generator" content={Astro.generator}>` en el Layout (política SMedialab: no exponer stack/versión de Astro)
