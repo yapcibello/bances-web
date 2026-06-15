@@ -126,7 +126,7 @@ Rutas file-based de Astro. `trailingSlash: 'always'` (todas las URLs terminan en
 **Dinámicas** (`getStaticPaths` en build):
 
 - `[categoria]/[slug].astro` → post individual `/{categoria}/{slug}/`. Genera un path por cada post no-borrador, extrayendo `(categoria, slug)` de `urlOriginal` con `parsearPermalink()` (`utils/blog.ts`). El permalink WP tiene 2 segmentos; la categoría es el primero y el slug el último.
-- `[categoria]/index.astro` → archivo de categoría `/{categoria}/`.
+- `[categoria]/index.astro` → `/{categoria}/`. **Bifurca**: si el slug es un tratamiento con contenido en `src/data/tratamientos.ts`, renderiza la landing rica `components/paginas/TratamientoLanding.astro` (hero + secciones reales + imágenes + posts relacionados + FAQPage); si no, el listado de la categoría del blog. Evita duplicar páginas y colisiones de routing.
 - `tag/[tag]/index.astro` → archivo de etiqueta `/tag/{tag}/`.
 
 Los slugs de 1 segmento reservados a páginas estáticas (`SLUGS_ESTATICOS` en `utils/blog.ts`) se excluyen de la ruta dinámica `[categoria]` para evitar colisiones.

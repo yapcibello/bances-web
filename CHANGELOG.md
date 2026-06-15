@@ -1,5 +1,12 @@
 # Changelog — bances-web
 
+## [2026-06-15] — Landings de tratamiento ricas (réplica 1:1 del contenido de producción)
+
+- feat: las 11 páginas de tratamiento (`/implantes-dentales/`, `/blanqueamiento-dental/`, `/ortodoncia/`, `/endodoncias/`, `/periodoncia/`, `/cirugia-oral/`, `/odontologia-conservadora/`, `/odontopediatria/`, `/odontologia-digital/`, `/protesis-dentales/`, `/radiologia-dental-3d/`) pasan de listado de categoría a **landing completa** con el contenido REAL de producción: hero + intro + secciones (texto, listas e imágenes) + artículos relacionados
+- feat: contenido en `apps/www/src/data/tratamientos.ts` (41 secciones, extraídas del mirror) + componente `components/paginas/TratamientoLanding.astro` + 33 imágenes de tratamiento descargadas a `public/`
+- feat: `[categoria]/index.astro` bifurca — landing si el slug es un tratamiento con contenido, listado de categoría en caso contrario; breadcrumbs (Inicio › Tratamientos › X) + JSON-LD FAQPage por landing
+- nota: `/ortodoncia/invisalign-la-ortodoncia-invisible/` ya era un post con contenido (no listado fino), se mantiene
+
 ## [2026-06-14] — FAQ por tratamiento (32 Q&A reales extraídas de producción)
 
 - feat(geo): 32 preguntas frecuentes REALES extraídas del contenido de las páginas de tratamiento de producción (mirror) y wireadas por tratamiento en `[categoria]/index.astro` — 10 tratamientos (blanqueamiento, cirugía oral, endodoncias, implantes, odontología conservadora, odontopediatría, ortodoncia, odontología digital, periodoncia, radiología 3D)

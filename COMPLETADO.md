@@ -26,3 +26,5 @@
 [2026-06-14] - [x] Fase 12 deploy-baseline: scripts/deploy-ftp.sh + deploy-swap.php.template (FTP ZIP a Hestia)
 [2026-06-14] - [x] Fase 13 verificación: build verde (85 págs), paridad URLs 1:1, smoke responsive — APTO
 [2026-06-14] - [x] Fase 14 plan-f0: planes/2026-06-14-f0-bootstrap-bances/ con tareas humanas a producción
+[2026-06-14] - [x] Placeholder de marca para 26 imágenes de posts rotas + FAQ general (home) y 32 FAQ por tratamiento + horario real (BloqueCita + openingHoursSpecification)
+[2026-06-15] - [x] Landings de tratamiento ricas: 11 tratamientos pasan de listado a landing con contenido real de producción (tratamientos.ts + TratamientoLanding.astro + 33 imágenes) — cerrado el gap principal vs producción

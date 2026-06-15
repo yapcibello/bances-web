@@ -15,8 +15,9 @@ import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Seccion from '../../components/ui/Seccion.astro';
 import PostCard from '../../components/blog/PostCard.astro';
-import Faq from '../../components/geo/Faq.astro';
+import TratamientoLanding from '../../components/paginas/TratamientoLanding.astro';
 import { faqsTratamientos } from '../../data/faqsTratamientos';
+import { tratamientos } from '../../data/tratamientos';
 import {
   parsearPermalink,
   hrefPost,
@@ -47,15 +48,36 @@ export async function getStaticPaths() {
 
 const { categoria, posts } = Astro.props;
 
-const description =
-  categoria.lead ?? `Artículos de la categoría ${categoria.nombre} en el blog de Clínica Dental Bances.`;
-
-// FAQ específicas del tratamiento (si la categoría es un tratamiento con FAQ
-// reales extraídas del sitio origen). Vacío para categorías sin FAQ.
+// Si la categoría es un tratamiento del menú, tiene una landing rica con el
+// contenido real del sitio origen; si no, se muestra el listado de la categoría.
+const contenido = tratamientos[categoria.slug];
 const faqs = faqsTratamientos[categoria.slug] ?? [];
+
+const title = contenido ? contenido.titulo : categoria.nombre;
+const description = contenido
+  ? (contenido.intro[0] ?? `${contenido.titulo}. Clínica Dental Bances.`)
+  : (categoria.lead ?? `Artículos de la categoría ${categoria.nombre} en el blog de Clínica Dental Bances.`);
+
+// Posts con su href de URL inmutable, para la landing.
+const postsCards = posts.map((post) => ({ data: post.data, href: hrefPost(post) }));
+
+// Migas de pan para la landing de tratamiento.
+const breadcrumbs = contenido
+  ? [
+      { name: 'Inicio', url: '/' },
+      {
+        name: 'Tratamientos dentales',
+        url: '/tratamientos-dentales-en-santa-cruz-de-tenerife/',
+      },
+      { name: categoria.nombre, url: `/${categoria.slug}/` },
+    ]
+  : undefined;
 ---
 
-<Layout title={categoria.nombre} description={description}>
+<Layout title={title} description={description} breadcrumbs={breadcrumbs}>
+  {contenido ? (
+    <TratamientoLanding contenido={contenido} posts={postsCards} faqs={faqs} />
+  ) : (
   <Seccion>
     <header class="mx-auto max-w-3xl text-center">
       <p class="font-heading text-sm font-semibold uppercase tracking-wide text-primary-dark">
@@ -101,15 +123,5 @@ const faqs = faqsTratamientos[categoria.slug] ?? [];
       </a>
     </p>
   </Seccion>
-
-  {
-    faqs.length > 0 && (
-      <Seccion fondo="bg-neutral-50">
-        <Faq
-          preguntas={faqs}
-          titulo={`Preguntas frecuentes sobre ${categoria.nombre}`}
-        />
-      </Seccion>
-    )
-  }
+  )}
 </Layout>

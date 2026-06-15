@@ -1,0 +1,138 @@
+---
+/**
+ * Landing de tratamiento — réplica del contenido de las páginas de tratamiento
+ * del WordPress origen (hero + intro + secciones con texto/listas/imágenes +
+ * artículos relacionados). Contenido REAL en `src/data/tratamientos.ts`.
+ *
+ * Emite un JSON-LD FAQPage (invisible) a partir de las FAQ del tratamiento
+ * cuando existen, para SEO/GEO, sin duplicar visualmente las secciones.
+ */
+import Seccion from '../ui/Seccion.astro';
+import Boton from '../ui/Boton.astro';
+import PostCard from '../blog/PostCard.astro';
+import JsonLd from '../seo/JsonLd.astro';
+import type { ContenidoTratamiento } from '../../data/tratamientos';
+import type { FaqTratamiento } from '../../data/faqsTratamientos';
+
+interface Props {
+  contenido: ContenidoTratamiento;
+  posts: any[];
+  faqs?: FaqTratamiento[];
+}
+
+const { contenido, posts, faqs = [] } = Astro.props;
+const { titulo, intro, heroImagenes, secciones } = contenido;
+const heroImg = heroImagenes[0];
+
+const faqSchema =
+  faqs.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqs.map((f) => ({
+          '@type': 'Question',
+          name: f.pregunta,
+          acceptedAnswer: { '@type': 'Answer', text: f.respuesta },
+        })),
+      }
+    : null;
+---
+
+{/* Hero del tratamiento */}
+<Seccion fondo="bg-white">
+  <div class="grid items-center gap-10 lg:grid-cols-2">
+    <div>
+      <p
+        class="font-heading text-sm font-semibold uppercase tracking-wide text-primary-dark"
+      >
+        Tratamientos dentales
+      </p>
+      <h1 class="mt-2 font-heading text-3xl font-bold text-ink sm:text-4xl">
+        {titulo}
+      </h1>
+      {intro.map((p) => <p class="mt-4 leading-relaxed text-ink-soft">{p}</p>)}
+      <div class="mt-8">
+        <Boton href="/#Contacto">Pedir Cita</Boton>
+      </div>
+    </div>
+    {
+      heroImg && (
+        <div>
+          <img
+            src={heroImg}
+            alt={titulo}
+            width="600"
+            height="400"
+            loading="eager"
+            decoding="async"
+            class="w-full rounded-2xl object-cover shadow-md"
+          />
+        </div>
+      )
+    }
+  </div>
+</Seccion>
+
+{/* Secciones de contenido (alternan fondo) */}
+{
+  secciones.map((sec, i) => (
+    <Seccion fondo={i % 2 === 0 ? 'bg-neutral-50' : 'bg-white'}>
+      <div class="mx-auto max-w-4xl">
+        <h2 class="font-heading text-2xl font-bold text-ink sm:text-3xl">
+          {sec.titulo}
+        </h2>
+        <div class="mt-4 space-y-4 leading-relaxed text-ink-soft">
+          {sec.parrafos.map((p) => (
+            <p>{p}</p>
+          ))}
+        </div>
+        {sec.items.length > 0 && (
+          <ul class="mt-4 list-disc space-y-2 pl-6 text-ink-soft">
+            {sec.items.map((it) => (
+              <li>{it}</li>
+            ))}
+          </ul>
+        )}
+        {sec.imagenes.length > 0 && (
+          <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {sec.imagenes.map((src) => (
+              <img
+                src={src}
+                alt={sec.titulo}
+                loading="lazy"
+                decoding="async"
+                class="w-full rounded-xl object-cover shadow-sm"
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </Seccion>
+  ))
+}
+
+{/* Artículos relacionados (posts de la categoría) */}
+{
+  posts.length > 0 && (
+    <Seccion fondo="bg-white">
+      <header class="mx-auto max-w-3xl text-center">
+        <h2 class="font-heading text-2xl font-bold text-ink sm:text-3xl">
+          Artículos relacionados con {titulo.split(' en ')[0]}
+        </h2>
+      </header>
+      <ul class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {posts.map((post) => (
+          <PostCard
+            title={post.data.title}
+            description={post.data.description}
+            href={post.href}
+            pubDate={post.data.pubDate}
+            heroImage={post.data.heroImage}
+          />
+        ))}
+      </ul>
+    </Seccion>
+  )
+}
+
+{faqSchema && <JsonLd schema={faqSchema} />}
